@@ -200,15 +200,7 @@ export default function App() {
     setCurrentPhotoIndex(0);
   };
   
-  // Spotlight coords
-  const [heroCoords, setHeroCoords] = useState({ x: 500, y: 300 });
-  const handleHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setHeroCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
+  // Spotlight coords removed to optimize performance and prevent re-renders on mousemove
 
 
   
@@ -386,6 +378,7 @@ export default function App() {
               duration: 22, 
               repeat: Infinity 
             }}
+            style={{ willChange: "transform" }}
             className="flex gap-16 md:gap-24 items-center shrink-0 pr-16 text-white font-black uppercase text-[10px] sm:text-xs tracking-[0.22em] font-sans"
           >
             {/* Repetition Part 1 */}
@@ -440,31 +433,6 @@ export default function App() {
         className="relative min-h-[540px] flex items-center pt-28 pb-20 sm:pt-32 sm:pb-24 px-4 md:px-8 bg-[#FAF2FF] overflow-hidden" 
         id="hero"
       >
-        {/* Floating subtle ambient points */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-white/40"
-              style={{
-                left: `${(i * 143) % 100}%`,
-                top: `${(i * 167) % 100}%`,
-                width: `${(i % 3) * 3 + 3}px`,
-                height: `${(i % 3) * 3 + 3}px`,
-              }}
-              animate={{
-                y: [0, -60, 0],
-                opacity: [0.15, 0.45, 0.15],
-              }}
-              transition={{
-                duration: 12 + (i % 3) * 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.8,
-              }}
-            />
-          ))}
-        </div>
 
         {/* Core Container */}
         <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
@@ -482,12 +450,10 @@ export default function App() {
                 }}
               />
 
-              {/* Photo em moldura orgânica: recortada em formato de blob fluido sem bordas, alternando suavemente as fotos */}
+              {/* Photo em moldura circular perfeita, otimizada para máxima aceleração de GPU e carregamento instantâneo */}
               <div 
-                className="group relative z-10 w-[260px] h-[260px] xs:w-[305px] xs:h-[305px] sm:w-[410px] sm:h-[410px] md:w-[450px] md:h-[450px] lg:w-[490px] lg:h-[490px] xl:w-[530px] xl:h-[530px] overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] transform hover:scale-[1.01] transition-transform duration-500"
+                className="group relative z-10 w-[260px] h-[260px] xs:w-[305px] xs:h-[305px] sm:w-[410px] sm:h-[410px] md:w-[450px] md:h-[450px] lg:w-[490px] lg:h-[490px] xl:w-[530px] xl:h-[530px] overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] transform hover:scale-[1.01] transition-transform duration-500 rounded-full"
                 style={{
-                  borderRadius: "60% 40% 70% 30% / 50% 60% 40% 50%",
-                  WebkitMaskImage: "-webkit-radial-gradient(white, black)",
                   transform: "translate3d(0, 0, 0)",
                   isolation: "isolate"
                 }}
@@ -512,39 +478,6 @@ export default function App() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-
-                {/* Hidden input file uploader */}
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  accept="image/*" 
-                  onChange={handleImageUpload} 
-                  className="hidden" 
-                />
-
-                {/* Floating image manager controls */}
-                <div className="absolute top-4 right-4 z-40 flex items-center gap-1.5 bg-white/95 backdrop-blur-md px-2.5 py-1.2 rounded-full border border-stone-200/50 shadow-md md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button 
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-1 text-[10px] font-bold text-stone-700 hover:text-[#a338b9] uppercase tracking-wider transition-colors cursor-pointer border-none bg-transparent whitespace-nowrap"
-                    title="Adicionar nova foto"
-                  >
-                    <Plus size={11} className="text-[#a338b9]" />
-                    Adicionar Foto
-                  </button>
-                  {photos.length > 1 && (
-                    <>
-                      <span className="w-px h-3 bg-stone-300" />
-                      <button 
-                        onClick={handleRemoveCurrentPhoto}
-                        className="text-stone-500 hover:text-red-500 transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center p-0.5"
-                        title="Remover esta foto"
-                      >
-                        <Trash2 size={11} />
-                      </button>
-                    </>
-                  )}
-                </div>
                 
                 {/* Indicadores de slide minimalistas e elegantes */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 bg-black/30 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 shadow-md">
@@ -637,13 +570,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* SECTION 2: COMO POSSO AJUDAR O SEU PET */}
-      <motion.section 
-        initial={{ opacity: 0, y: 150 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-120px" }}
-        transition={{ duration: 1.1, ease: [0.21, 0.47, 0.32, 0.98] }}
-        className="relative z-30 -mt-20 md:-mt-24 mx-4 md:mx-8 lg:mx-auto max-w-7xl rounded-[3.5rem] md:rounded-[4.5rem] shadow-[0_-15px_45px_rgba(163,56,185,0.04),0_30px_70px_rgba(163,56,185,0.08),0_10px_30px_rgba(0,0,0,0.01)] bg-white/95 backdrop-blur-md border border-white/60 py-16 md:py-20 px-6 md:px-12 relative overflow-hidden" 
+      {/* SECTION 2: COMO POSSO AJUDAR O SEU PET - Otimizado para evitar reflows de layout na rolagem */}
+      <section 
+        className="relative z-30 -mt-20 md:-mt-24 mx-4 md:mx-8 lg:mx-auto max-w-7xl rounded-[3.5rem] md:rounded-[4.5rem] shadow-[0_-15px_45px_rgba(163,56,185,0.04),0_30px_70px_rgba(163,56,185,0.08),0_10px_30px_rgba(0,0,0,0.01)] bg-white/95 backdrop-blur-md border border-white/60 py-16 md:py-20 px-6 md:px-12 overflow-hidden" 
         id="ajuda"
       >
         {/* Subtle premium background paper/noise texture pattern overlay */}
@@ -659,11 +588,12 @@ export default function App() {
             <div className="absolute inset-0 bg-white/80 filter blur-[45px] rounded-full pointer-events-none z-[-1]" />
             
             <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.25em] uppercase font-sans">Soluções Completas</span>
-            <TitleReveal 
-              text="Como posso ajudar o seu pet?" 
-              className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight justify-center text-center" 
-            />
-            <FadeIn delay={0.4}>
+            <FadeIn>
+              <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center">
+                Como posso ajudar o seu pet?
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.2}>
               <p className="text-stone-700 font-medium text-sm md:text-base leading-relaxed max-w-xl mx-auto font-sans text-center mt-2">
                 Soluções científicas e personalizadas que promovem mais saúde, vitalidade e qualidade de vida para cães e gatos.
               </p>
@@ -761,7 +691,7 @@ export default function App() {
           <AbordagemDiagram openConsulta={openConsulta} />
 
         </div>
-      </motion.section>
+      </section>
       
       {/* SECTION 3: SOBRE A PROFISSIONAL (Dra Thais) */}
       <section className="pt-16 pb-12 md:pt-20 md:pb-16 px-4 md:px-8 relative z-20 -mt-12 bg-gradient-to-tr from-[#13011b] via-[#3d0952] to-[#13011b] rounded-b-[3.5rem] md:rounded-b-[4.5rem] border-b border-[#a338b9]/25 shadow-[0_20px_50px_rgba(163,56,185,0.12)] text-left overflow-hidden" id="sobre">
@@ -878,11 +808,12 @@ export default function App() {
           
           <div className="text-center mb-16 max-w-3xl mx-auto flex flex-col items-center space-y-3">
             <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.25em] uppercase font-sans">Sessões Individuais</span>
-            <TitleReveal 
-              text="Quer um acompanhamento clínico exclusivo?" 
-              className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight justify-center text-center" 
-            />
-            <FadeIn delay={0.4}>
+            <FadeIn>
+              <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center">
+                Quer um acompanhamento clínico exclusivo?
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.2}>
               <p className="text-stone-700 font-semibold text-sm md:text-base leading-relaxed font-sans max-w-2xl text-center mt-2 mx-auto">
                 Se o seu pet possui alguma patologia diagnosticada (doença renal, obesidade severa, alergia grave ou diabetes) ou você prefere uma consulta tête-à-tête comigo, escolha um dos formatos abaixo:
               </p>
@@ -893,12 +824,15 @@ export default function App() {
             
             {/* Format 1: Teleconsulta */}
             <FadeIn delay={0.05} className="h-full">
-              <div className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/50 transition-all duration-300 relative text-left hover:-translate-y-1.5 hover:shadow-lg">
+              <div 
+                style={{ willChange: "transform, box-shadow" }}
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+              >
                 <div className="h-60 w-full overflow-hidden relative bg-stone-100">
                   <img 
-                    src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=700&auto=format&fit=crop" 
+                    src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=500&q=70" 
                     alt="Teleconsulta com a médica veterinária Dra Thais" 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-95"
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     decoding="async"
@@ -910,34 +844,35 @@ export default function App() {
                 </div>
                 <div className="p-8 flex flex-col flex-grow justify-between">
                   <div className="space-y-3 mb-6">
-                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito">Sessão Digital</span>
+                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Digital</span>
                     <h3 className="text-xl md:text-2xl font-semibold text-[#111827] font-display">Teleconsulta Nutricional</h3>
                     <p className="text-xs text-stone-700 font-semibold leading-relaxed pt-2 font-nunito">
                       Para tutores de todo o Brasil e exterior. Um atendimento online minucioso de cerca de 1 hora, análise de exames recentes, receita de dieta natural balanceada ou suplementação ideal da ração enviada em PDF assinado digitalmente.
                     </p>
                   </div>
-                  <motion.button 
+                  <button 
                     onClick={() => openConsulta('online')}
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer border-none"
+                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
                   >
                     <Calendar size={13} className="shrink-0" />
                     <span>Agendar Teleconsulta</span>
                     <ArrowUpRight size={13} className="shrink-0" />
-                  </motion.button>
+                  </button>
                 </div>
               </div>
             </FadeIn>
 
             {/* Format 2: Presencial SP */}
-            <FadeIn delay={0.15} className="h-full">
-              <div className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/50 transition-all duration-300 relative text-left hover:-translate-y-1.5 hover:shadow-lg">
+            <FadeIn delay={0.1} className="h-full">
+              <div 
+                style={{ willChange: "transform, box-shadow" }}
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+              >
                 <div className="h-60 w-full overflow-hidden relative bg-stone-100">
                   <img 
-                    src="https://images.pexels.com/photos/8473448/pexels-photo-8473448.jpeg" 
+                    src="https://images.pexels.com/photos/8473448/pexels-photo-8473448.jpeg?auto=compress&cs=tinysrgb&w=500&q=70" 
                     alt="Atendimento clínico direto no consultório em São Paulo" 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-95"
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     decoding="async"
@@ -949,34 +884,35 @@ export default function App() {
                 </div>
                 <div className="p-8 flex flex-col flex-grow justify-between">
                   <div className="space-y-3 mb-6">
-                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito">Sessão Consultório</span>
+                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Consultório</span>
                     <h3 className="text-xl md:text-2xl font-semibold text-[#111827] font-display">Consulta Presencial</h3>
                     <p className="text-xs text-stone-700 font-semibold leading-relaxed pt-2 font-nunito">
                       Realizada em clínica estruturada na cidade de São Paulo. Inclui exame físico geral, aferição de score de gordura corporal, bioimpedância, e elaboração minuciosa do guia alimentar clínico individualizado para seu amigo de quatro patas.
                     </p>
                   </div>
-                  <motion.button 
+                  <button 
                     onClick={() => openConsulta('presencial')}
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer border-none"
+                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
                   >
                     <MapPin size={13} className="shrink-0" />
                     <span>Agendar Presencial</span>
                     <ArrowUpRight size={13} className="shrink-0" />
-                  </motion.button>
+                  </button>
                 </div>
               </div>
             </FadeIn>
 
             {/* Format 3: Convênio */}
-            <FadeIn delay={0.25} className="h-full">
-              <div className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/50 transition-all duration-300 relative text-left hover:-translate-y-1.5 hover:shadow-lg">
+            <FadeIn delay={0.15} className="h-full">
+              <div 
+                style={{ willChange: "transform, box-shadow" }}
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+              >
                 <div className="h-60 w-full overflow-hidden relative bg-stone-100">
                   <img 
-                    src="https://marcaspelomundo.com.br/wp-content/uploads/2022/06/handler-1.jpg" 
+                    src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=500&q=70" 
                     alt="Atendimento veterinário por plano de saúde e convênio" 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-95"
                     referrerPolicy="no-referrer"
                     loading="lazy"
                     decoding="async"
@@ -988,22 +924,20 @@ export default function App() {
                 </div>
                 <div className="p-8 flex flex-col flex-grow justify-between">
                   <div className="space-y-3 mb-6">
-                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito">Uso de Benefício</span>
+                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Uso de Benefício</span>
                     <h3 className="text-xl md:text-2xl font-semibold text-[#111827] font-display">Atendimento pelo Convênio</h3>
                     <p className="text-xs text-stone-700 font-semibold leading-relaxed pt-2 font-nunito">
                       Seu pet tem plano de saúde? Diversas operadoras trabalham com sistema de livre escolha e reembolso para consultas com especialistas. Fale comigo para saber mais e agendar pelo convênio!
                     </p>
                   </div>
-                  <motion.button 
+                  <button 
                     onClick={() => openConsulta('insurance')}
-                    whileHover={{ scale: 1.03, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer border-none"
+                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
                   >
                     <MessageSquare size={13} className="shrink-0" />
                     <span>Agendar pelo Convênio</span>
                     <ArrowUpRight size={13} className="shrink-0" />
-                  </motion.button>
+                  </button>
                 </div>
               </div>
             </FadeIn>

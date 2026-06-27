@@ -34,11 +34,12 @@ export function MeuPrimeiroPetNotification() {
       {isOpen && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-[410px] z-[999] pointer-events-none">
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            initial={{ opacity: 0, y: 40, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 280, damping: 24 }}
-            className="w-full rounded-[2.2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.5)] border border-white/10 pointer-events-auto relative"
+            exit={{ opacity: 0, y: 30, scale: 0.96 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{ willChange: "transform, opacity" }}
+            className="w-full rounded-[2.2rem] overflow-hidden shadow-2xl border border-white/10 pointer-events-auto relative"
             id="notificacao-primeiro-pet"
           >
           {/* Background Image Container */}
@@ -46,8 +47,9 @@ export function MeuPrimeiroPetNotification() {
             <img 
               src="https://images.pexels.com/photos/8434641/pexels-photo-8434641.jpeg" 
               alt="Alimentação saudável pet" 
-              className="w-full h-full object-cover object-[center_30%] filter blur-[0.5px]"
+              className="w-full h-full object-cover object-[center_30%]"
               referrerPolicy="no-referrer"
+              decoding="async"
             />
             {/* Rich multi-color dark metallic gradient overlay: tons puros de roxo e preto, removendo o vinho */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#05000a]/94 via-[#25003b]/85 to-[#3e0061]/80 mix-blend-multiply" />
