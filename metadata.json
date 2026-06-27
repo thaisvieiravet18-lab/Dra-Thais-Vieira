@@ -1,0 +1,6 @@
+{
+  "name": "Meu Primeiro Pet",
+  "description": "Website completo da Dra. Thais Vieira, médica veterinária especialista em nutrição animal. Contém serviços, consultas e o produto digital Meu Primeiro Pet.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
