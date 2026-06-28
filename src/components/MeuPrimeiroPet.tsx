@@ -88,7 +88,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
       {/* Background Image with optimized visibility and text contrast */}
       <div className="absolute inset-0 -z-10 w-full h-full overflow-hidden">
         <img 
-          src="https://images.pexels.com/photos/12024296/pexels-photo-12024296.png" 
+          src="https://images.pexels.com/photos/12024296/pexels-photo-12024296.png?auto=compress&cs=tinysrgb&w=1200&q=70" 
           alt="Plano Meu Primeiro Pet" 
           className="w-full h-full object-cover object-center scale-100 select-none pointer-events-none"
           referrerPolicy="no-referrer"
@@ -133,21 +133,21 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
             </p>
 
             {/* Perguntas super destacadas */}
-            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+            <div className="mt-8 max-w-3xl mx-auto grid grid-cols-2 gap-2.5 sm:gap-4 text-left">
               {[
-                { text: "Adotou um pet recentemente e não sabe qual ração escolher?", icon: <Dog className="text-amber-400" size={24} /> },
-                { text: "É pai ou mãe de pet de primeira viagem e quer começar do jeito certo?", icon: <Heart className="text-red-400" size={24} /> },
-                { text: "Já tem um pet em casa, mas ainda mede a ração no copinho, no próprio comedouro ou no olho?", icon: <Scale className="text-orange-400" size={24} /> },
-                { text: "Você sabe se ele está comendo a quantidade certa todos os dias?", icon: <Activity className="text-emerald-400" size={24} /> }
+                { text: "Adotou um pet recentemente e não sabe qual ração escolher?", icon: <Dog className="text-amber-400" size={20} /> },
+                { text: "É pai ou mãe de pet de primeira viagem e quer começar do jeito certo?", icon: <Heart className="text-red-400" size={20} /> },
+                { text: "Já tem um pet em casa, mas ainda mede a ração no copinho ou no olho?", icon: <Scale className="text-orange-400" size={20} /> },
+                { text: "Você sabe se ele está comendo a quantidade certa todos os dias?", icon: <Activity className="text-emerald-400" size={20} /> }
               ].map((q, qIdx) => (
                 <div 
                   key={qIdx} 
-                  className="bg-white/[0.06] backdrop-blur-md border border-white/10 p-5 rounded-2.5xl hover:border-amber-400/60 hover:bg-white/[0.1] hover:shadow-[0_10px_30px_rgba(251,191,36,0.1)] transition-all duration-300 flex items-start gap-4"
+                  className="bg-white/[0.06] backdrop-blur-md border border-white/10 p-2.5 sm:p-5 rounded-xl sm:rounded-2.5xl hover:border-amber-400/60 hover:bg-white/[0.1] hover:shadow-[0_10px_30px_rgba(251,191,36,0.1)] transition-all duration-300 flex flex-col sm:flex-row items-start gap-2 sm:gap-4"
                 >
-                  <div className="p-3 bg-white/[0.08] rounded-2xl shrink-0 border border-white/5 flex items-center justify-center shadow-inner">
+                  <div className="p-1.5 sm:p-3 bg-white/[0.08] rounded-lg sm:rounded-2xl shrink-0 border border-white/5 flex items-center justify-center shadow-inner">
                     {q.icon}
                   </div>
-                  <p className="text-white font-extrabold text-sm md:text-[15px] leading-snug font-sans my-auto">
+                  <p className="text-white font-extrabold text-[10px] sm:text-sm md:text-[15px] leading-tight sm:leading-snug font-sans my-auto">
                     {q.text}
                   </p>
                 </div>
@@ -531,7 +531,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8">
               {[
                 {
                   title: "Melhor Ração",
@@ -583,8 +583,8 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
                 }
               ].map((card, cardIdx) => (
                 <FadeIn key={cardIdx} delay={cardIdx * 0.04}>
-                  <div className="bg-white/[0.02] border border-white/10 rounded-[2rem] overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(163,56,185,0.12)] hover:bg-white/[0.04] hover:border-[#a338b9]/40 transition-all duration-300 flex flex-col h-full text-left relative">
-                    <div className="h-44 w-full overflow-hidden shrink-0 relative">
+                  <div className="bg-white/[0.02] border border-white/10 rounded-2xl sm:rounded-[2rem] overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(163,56,185,0.12)] hover:bg-white/[0.04] hover:border-[#a338b9]/40 transition-all duration-300 flex flex-col h-full text-left relative">
+                    <div className="h-24 sm:h-44 w-full overflow-hidden shrink-0 relative">
                       <img 
                         src={card.img} 
                         alt={card.title} 
@@ -594,30 +594,30 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
                       <div className="absolute inset-0 bg-gradient-to-t from-[#040008] via-transparent to-transparent" />
                       
                       {/* Floated category badge */}
-                      <span className="absolute top-4 left-4 text-[9px] font-black tracking-widest bg-stone-950/80 backdrop-blur-md text-white border border-white/10 py-1 px-2.5 rounded-md">
+                      <span className="absolute top-2 sm:top-4 left-2 sm:left-4 text-[7px] sm:text-[9px] font-black tracking-widest bg-stone-950/80 backdrop-blur-md text-white border border-white/10 py-0.5 sm:py-1 px-1.5 sm:px-2.5 rounded-md">
                         {card.badge}
                       </span>
                     </div>
                     
                     {/* Floating styled icon container overlapping the image border */}
-                    <div className="absolute top-36 right-6">
-                      <div className={`w-11 h-11 rounded-full border flex items-center justify-center backdrop-blur-lg shadow-lg group-hover:scale-110 transition-transform duration-300 ${card.accent}`}>
-                        {card.icon}
+                    <div className="absolute top-18 sm:top-36 right-3 sm:right-6">
+                      <div className={`w-7 h-7 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center backdrop-blur-lg shadow-lg group-hover:scale-110 transition-transform duration-300 ${card.accent}`}>
+                        {React.cloneElement(card.icon as React.ReactElement, { size: undefined, className: "w-3.5 h-3.5 sm:w-[18px] sm:h-[18px]" })}
                       </div>
                     </div>
                     
-                    <div className="p-6 md:p-8 flex-grow flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <h4 className="text-lg font-extrabold text-white font-display uppercase tracking-wide group-hover:text-amber-400 transition-colors">
+                    <div className="p-3 sm:p-6 md:p-8 flex-grow flex flex-col justify-between space-y-2.5 sm:space-y-4">
+                      <div className="space-y-1 sm:space-y-2">
+                        <h4 className="text-xs sm:text-lg font-extrabold text-white font-display uppercase tracking-wide group-hover:text-amber-400 transition-colors">
                           {card.title}
                         </h4>
-                        <p className="text-xs md:text-sm text-stone-300 font-semibold leading-relaxed font-sans">
+                        <p className="text-[10px] sm:text-xs md:text-sm text-stone-300 font-semibold leading-relaxed font-sans">
                           {card.desc}
                         </p>
                       </div>
                       
-                      <div className="pt-2 flex items-center gap-1.5 text-[10px] font-black text-[#a338b9] tracking-wider uppercase">
-                        <Check size={12} className="text-emerald-400" />
+                      <div className="pt-1 flex items-center gap-1 sm:gap-1.5 text-[8px] sm:text-[10px] font-black text-[#a338b9] tracking-wider uppercase">
+                        <Check size={10} className="text-emerald-400 shrink-0" />
                         <span>Incluso no material</span>
                       </div>
                     </div>

@@ -44,9 +44,6 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
     if (!validate()) return;
 
     setIsSubmitting(true);
-    
-    // Automatically trigger WhatsApp redirect synchronously on submit to prevent browser popup blockers!
-    handleWhatsAppConfirm();
 
     try {
       const response = await fetch('/api/submit_form', {
@@ -373,7 +370,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                   Cadastro Salvo! 🎉
                 </h2>
                 <p className="text-[#a338b9] font-bold text-sm mb-6 flex items-center justify-center gap-1.5">
-                  <Sparkles size={16} /> Respostas enviadas para thaissilveiravieira7@hotmail.com!
+                  <Sparkles size={16} /> Respostas enviadas por e-mail com sucesso!
                 </p>
 
                 <div className="bg-[#FAF8F5] border border-[#ebdcf2]/50 p-6 rounded-2xl text-left max-w-lg mx-auto mb-8">
@@ -381,7 +378,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                     <ShieldCheck className="text-[#a338b9]" size={18} /> Próximos passos para receber seu plano:
                   </h4>
                   <ul className="text-stone-600 text-xs md:text-sm space-y-2 pl-4 list-decimal font-medium">
-                    <li>As informações do(a) <strong>{formData.name}</strong> já foram recebidas com absoluto sucesso pela Dra. Thais.</li>
+                    <li>As informações do(a) <strong>{formData.name}</strong> já foram recebidas por e-mail pela Dra. Thais.</li>
                     <li>Para ativar a montagem personalizada das porções e orientações, conclua o pagamento de apenas <strong>R$ 119,90</strong> no link do Mercado Pago.</li>
                     <li>Após realizar o pagamento, a Dra. Thais fará a análise individual e enviará o seu plano alimentar personalizado diretamente por e-mail em até 24h úteis!</li>
                   </ul>
@@ -417,7 +414,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                     className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3.5 px-6 rounded-2xl flex items-center justify-center gap-2 font-bold cursor-pointer transition-colors duration-300 border-none shadow-sm text-sm"
                     id="btn-whatsapp-comprovante"
                   >
-                    <span>Já paguei, chamar no WhatsApp</span>
+                    <span>Falar com Dra. Thais no WhatsApp</span>
                   </button>
 
                   <button 

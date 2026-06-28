@@ -36,7 +36,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       title: "Comida de verdade para uma vida plena",
       desc: "Ingredientes frescos e cozidos sob medida, calculados e suplementados para cobrir todas as necessidades individuais do seu pet.",
       icon: <Leaf size={18} />,
-      img: "https://www.petz.com.br/blog/wp-content/uploads/2019/11/alimentacao-natural-cachorro.jpg",
+      img: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=500&q=80",
       accentColor: "from-emerald-500 to-teal-600",
       leftFeatures: [
         {
@@ -69,7 +69,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       title: "O melhor de dois mundos",
       desc: "A união inteligente da praticidade da ração seca com a rica hidratação e palatabilidade da alimentação natural fresca.",
       icon: <Sparkles size={18} />,
-      img: "https://cachorroverde.com.br/wp-content/uploads/2024/11/1-2.png",
+      img: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=500&q=80",
       accentColor: "from-amber-500 to-orange-600",
       leftFeatures: [
         {
@@ -102,7 +102,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       title: "Ração Premium Otimizada",
       desc: "Escolha científica da melhor ração do mercado (super premium ou terapêutica) e cálculo exato de quantidade para evitar sobrepeso.",
       icon: <Bone size={18} />,
-      img: "https://petcare.com.br/wp-content/uploads/2023/08/cachorro-branco-e-marrom-faminto-com-orelhas-grandes-e-olhos-castanhos-prontos-para-comer-uma-tigela-cheia-de-comida-1.jpg",
+      img: "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&w=500&q=80",
       accentColor: "from-indigo-500 to-purple-600",
       leftFeatures: [
         {
@@ -190,8 +190,8 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       {/* DIAGRAMA INTERATIVO (Abordagem Chef Bob Style) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center max-w-7xl mx-auto px-4 md:px-8">
         
-        {/* COLUNA ESQUERDA - CARACTERÍSTICAS */}
-        <div className="lg:col-span-4 space-y-10 order-2 lg:order-1">
+        {/* COLUNA ESQUERDA - CARACTERÍSTICAS (Otimizado para mobile em 2 colunas) */}
+        <div className="lg:col-span-4 order-2 lg:order-1">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeMode}
@@ -199,18 +199,18 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.4 }}
-              className="space-y-10 text-left"
+              className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:space-y-10 text-left"
             >
               {current.leftFeatures.map((feat, idx) => (
-                <div key={idx} className="group flex flex-col sm:flex-row items-start gap-4 p-4 rounded-2xl hover:bg-stone-50 transition-colors duration-300" id={`feat-left-${activeMode}-${idx}`}>
-                  <div className="p-3 bg-white rounded-xl shadow-sm border border-stone-100 shrink-0 group-hover:scale-110 transition-transform duration-300">
+                <div key={idx} className="group flex flex-col sm:flex-row items-start gap-3 sm:gap-4 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-stone-50 transition-colors duration-300" id={`feat-left-${activeMode}-${idx}`}>
+                  <div className="p-2 sm:p-3 bg-white rounded-xl shadow-sm border border-stone-100 shrink-0 group-hover:scale-110 transition-transform duration-300">
                     {feat.icon}
                   </div>
-                  <div className="space-y-1.5">
-                    <h4 className="text-lg font-bold text-[#111827] font-display">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <h4 className="text-sm sm:text-base lg:text-lg font-bold text-[#111827] font-display leading-tight">
                       {feat.title}
                     </h4>
-                    <p className="text-xs md:text-sm text-stone-600 leading-relaxed font-sans font-medium">
+                    <p className="text-[11px] sm:text-xs lg:text-sm text-stone-600 leading-relaxed font-sans font-medium line-clamp-4">
                       {feat.desc}
                     </p>
                   </div>
@@ -259,8 +259,8 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
           </div>
         </div>
 
-        {/* COLUNA DIREITA - CARACTERÍSTICAS */}
-        <div className="lg:col-span-4 space-y-10 order-3">
+        {/* COLUNA DIREITA - CARACTERÍSTICAS (Otimizado para mobile em 2 colunas) */}
+        <div className="lg:col-span-4 order-3">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeMode}
@@ -268,18 +268,18 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 30 }}
               transition={{ duration: 0.4 }}
-              className="space-y-10 text-left"
+              className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:space-y-10 text-left"
             >
               {current.rightFeatures.map((feat, idx) => (
-                <div key={idx} className="group flex flex-col sm:flex-row items-start lg:items-start gap-4 p-4 rounded-2xl hover:bg-stone-50 transition-colors duration-300" id={`feat-right-${activeMode}-${idx}`}>
-                  <div className="p-3 bg-white rounded-xl shadow-sm border border-stone-100 shrink-0 group-hover:scale-110 transition-transform duration-300">
+                <div key={idx} className="group flex flex-col sm:flex-row items-start lg:items-start gap-3 sm:gap-4 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-stone-50 transition-colors duration-300" id={`feat-right-${activeMode}-${idx}`}>
+                  <div className="p-2 sm:p-3 bg-white rounded-xl shadow-sm border border-stone-100 shrink-0 group-hover:scale-110 transition-transform duration-300">
                     {feat.icon}
                   </div>
-                  <div className="space-y-1.5">
-                    <h4 className="text-lg font-bold text-[#111827] font-display">
+                  <div className="space-y-1 sm:space-y-1.5">
+                    <h4 className="text-sm sm:text-base lg:text-lg font-bold text-[#111827] font-display leading-tight">
                       {feat.title}
                     </h4>
-                    <p className="text-xs md:text-sm text-stone-600 leading-relaxed font-sans font-medium">
+                    <p className="text-[11px] sm:text-xs lg:text-sm text-stone-600 leading-relaxed font-sans font-medium line-clamp-4">
                       {feat.desc}
                     </p>
                   </div>

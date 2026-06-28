@@ -82,9 +82,6 @@ export const ConsultaModal = ({
     const encodedText = encodeURIComponent(text);
     const whatsappUrl = `https://api.whatsapp.com/send?phone=5511916539562&text=${encodedText}`;
     
-    // Open WhatsApp right away synchronously to bypass any popup blockers
-    window.open(whatsappUrl, '_blank');
-    
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
@@ -216,7 +213,7 @@ export const ConsultaModal = ({
                     {isSubmitting ? (
                       "Enviando solicitação..."
                     ) : (
-                      <>Enviar e Abrir WhatsApp direto <ArrowRight size={20} /></>
+                      <>Confirmar Cadastro <ArrowRight size={20} /></>
                     )}
                   </button>
                 </form>
@@ -226,13 +223,13 @@ export const ConsultaModal = ({
                 <div className="w-16 h-16 bg-emerald-50 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-200">
                   <CheckCircle2 size={32} />
                 </div>
-                <h2 className="!text-primary mb-3 font-display font-bold">Solicitação Enviada!</h2>
+                <h2 className="!text-primary mb-3 font-display font-bold">Cadastro Recebido! 🎉</h2>
                 <p className="!text-stone-700 font-medium !mb-6 text-sm md:text-base">
-                  O WhatsApp da Dra. Thais foi aberto automaticamente em uma nova aba com os dados do agendamento de seu pet. Se a conversa não abriu por causa de bloqueadores do navegador, use o botão verde abaixo.
+                  Seus dados foram enviados com sucesso por e-mail para a Dra. Thais. Se preferir conversar direto com ela agora mesmo pelo WhatsApp, clique no botão abaixo.
                 </p>
-                <button onClick={handleWhatsAppRedirect} className="modal-btn bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center gap-2 border-none font-semibold cursor-pointer">
+                <button onClick={handleWhatsAppRedirect} className="modal-btn bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center gap-2 border-none font-extrabold cursor-pointer py-4 rounded-2xl shadow-[0_8px_20px_rgba(37,211,102,0.2)] hover:scale-[1.01] transition-transform">
                   <MessageSquare size={20} />
-                  Abrir WhatsApp Novamente
+                  Falar com Dra. Thais no WhatsApp
                 </button>
               </div>
             )}

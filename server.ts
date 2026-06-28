@@ -262,76 +262,127 @@ async function startServer() {
       const smtpUser = process.env.SMTP_USER;
       const smtpPass = process.env.SMTP_PASS;
       const smtpFrom = process.env.SMTP_FROM_EMAIL || "onboarding@resend.dev";
-      const receiverEmail = process.env.RECEIVER_EMAIL || "thaissilveiravieira7@hotmail.com";
+      const receiverEmailRaw = process.env.RECEIVER_EMAIL || "thaissilveiravieira7@hotmail.com";
+      
+      const receiverEmails = receiverEmailRaw.split(",").map(e => e.trim()).filter(e => e.length > 0);
 
-      let emailSent = false;
+      let emailSentToAny = false;
+      const fromAddress = smtpFrom.includes("@") && !smtpFrom.includes("meuprimeiropet.com.br") ? smtpFrom : "onboarding@resend.dev";
 
       // 1. Try sending via Resend API if API Key is available
       if (resendApiKey) {
-        console.log("Tentando enviar e-mail via Resend API...");
-        try {
-          // Use default sender onboarding@resend.dev unless a custom verified domain is specified
-          const fromAddress = smtpFrom.includes("@") && !smtpFrom.includes("meuprimeiropet.com.br") ? smtpFrom : "onboarding@resend.dev";
-          
-          const response = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${resendApiKey}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: `Meu Primeiro Pet <${fromAddress}>`,
-              to: receiverEmail,
-              subject: `🐾 Novo Form: ${name || 'Pet'} (${tutorName || 'Tutor'})`,
-              html: emailHtml,
-            }),
-          });
+        console.log("Tentando enviar e-mails via Resend API...");
+        for (const targetEmail of receiverEmails) {
+          try {
+            const response = await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${resendApiKey}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                from: `Meu Primeiro Pet <${fromAddress}>`,
+                to: targetEmail,
+                subject: `🐾 Novo Form: ${name || 'Pet'} (${tutorName || 'Tutor'})`,
+                html: emailHtml,
+              }),
+            });
 
-          const responseData = await response.json() as any;
-          if (response.ok) {
-            console.log(`Email successfully sent via Resend API to ${receiverEmail}`);
-            emailSent = true;
-            return res.json({ success: true, simulated: false, provider: "resend" });
-          } else {
-            console.error("Erro retornado pela API do Resend:", responseData);
+            const responseData = await response.json() as any;
+            if (response.ok) {
+              console.log(`Email successfully sent via Resend API to ${targetEmail}`);
+              emailSentToAny = true;
+            } else {
+              console.error(`Erro retornado pelo Resend para ${targetEmail}:`, responseData);
+            }
+          } catch (err) {
+            console.error(`Erro ao enviar via Resend para ${targetEmail}:`, err);
           }
-        } catch (resendError) {
-          console.error("Falha ao se comunicar com a API do Resend:", resendError);
+        }
+
+        // Try sending a copy to the tutor's email address if different and specified
+        if (tutorEmail && tutorEmail.trim() !== "") {
+          const tutorEmailTrimmed = tutorEmail.trim();
+          if (!receiverEmails.includes(tutorEmailTrimmed)) {
+            try {
+              const response = await fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: {
+                  "Authorization": `Bearer ${resendApiKey}`,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  from: `Meu Primeiro Pet <${fromAddress}>`,
+                  to: tutorEmailTrimmed,
+                  subject: `🐾 Cópia de Respostas: Formulário Nutricional do ${name || 'Pet'}`,
+                  html: emailHtml,
+                }),
+              });
+              if (response.ok) {
+                console.log(`Email copy successfully sent via Resend API to tutor ${tutorEmailTrimmed}`);
+              }
+            } catch (err) {
+              console.log(`Tutor copy via Resend failed (this is normal if unverified):`, err);
+            }
+          }
         }
       }
 
       // 2. Fallback to SMTP if Resend didn't send and SMTP is configured
-      if (!emailSent && smtpHost && smtpUser && smtpPass) {
-        // Create actual nodemailer transport
-        const transport = nodemailer.createTransport({
-          host: smtpHost,
-          port: parseInt(smtpPort || "587"),
-          secure: smtpPort === "465", // true for 465, false for other ports
-          auth: {
-            user: smtpUser,
-            pass: smtpPass,
-          },
-        });
+      if (!emailSentToAny && smtpHost && smtpUser && smtpPass) {
+        try {
+          const transport = nodemailer.createTransport({
+            host: smtpHost,
+            port: parseInt(smtpPort || "587"),
+            secure: smtpPort === "465", // true for 465, false for other ports
+            auth: {
+              user: smtpUser,
+              pass: smtpPass,
+            },
+          });
 
-        // Send email to Dra Thais only
-        await transport.sendMail({
-          from: `"Meu Primeiro Pet" <${smtpFrom}>`,
-          to: receiverEmail,
-          subject: `🐾 Novo Form: ${name || 'Pet'} (${tutorName || 'Tutor'})`,
-          html: emailHtml,
-        });
+          for (const targetEmail of receiverEmails) {
+            try {
+              await transport.sendMail({
+                from: `"Meu Primeiro Pet" <${smtpFrom}>`,
+                to: targetEmail,
+                subject: `🐾 Novo Form: ${name || 'Pet'} (${tutorName || 'Tutor'})`,
+                html: emailHtml,
+              });
+              console.log(`Email successfully sent via SMTP to ${targetEmail}`);
+              emailSentToAny = true;
+            } catch (err) {
+              console.error(`Erro ao enviar via SMTP para ${targetEmail}:`, err);
+            }
+          }
 
-        console.log(`Email successfully sent via SMTP to ${receiverEmail} for pet ${name}`);
-        emailSent = true;
-        return res.json({ success: true, simulated: false, provider: "smtp" });
+          if (tutorEmail && tutorEmail.trim() !== "") {
+            const tutorEmailTrimmed = tutorEmail.trim();
+            if (!receiverEmails.includes(tutorEmailTrimmed)) {
+              try {
+                await transport.sendMail({
+                  from: `"Meu Primeiro Pet" <${smtpFrom}>`,
+                  to: tutorEmailTrimmed,
+                  subject: `🐾 Cópia de Respostas: Formulário Nutricional do ${name || 'Pet'}`,
+                  html: emailHtml,
+                });
+                console.log(`Email copy successfully sent via SMTP to tutor ${tutorEmailTrimmed}`);
+              } catch (err) {
+                console.error(`Erro ao enviar cópia via SMTP para tutor ${tutorEmailTrimmed}:`, err);
+              }
+            }
+          }
+        } catch (smtpInitError) {
+          console.error("Erro ao inicializar SMTP:", smtpInitError);
+        }
       }
 
       // 3. Fallback to Simulation if both failed or were not configured
-      if (!emailSent) {
+      if (!emailSentToAny) {
         // Log to console if credentials are empty to avoid holding up the process
         console.warn("Nenhuma configuração válida de e-mail (Resend ou SMTP) encontrada ou funcionando.");
         console.log("=== SIMULATED FORM SUBMISSION ===");
-        console.log(`Recipient: ${receiverEmail}`);
+        console.log(`Recipients: ${receiverEmails.join(", ")}`);
         console.log(`Subject: New Form for Pet ${name}`);
         console.log(`Tutor Phone: ${tutorPhone}`);
         console.log("=================================");
@@ -342,6 +393,8 @@ async function startServer() {
           message: "Formulário recebido e registrado em modo de simulação!" 
         });
       }
+
+      return res.json({ success: true, simulated: false, provider: "real" });
     } catch (error: any) {
       console.error("Form Submission Error:", error);
       res.status(500).json({ 
@@ -520,68 +573,78 @@ async function startServer() {
       const smtpUser = process.env.SMTP_USER;
       const smtpPass = process.env.SMTP_PASS;
       const smtpFrom = process.env.SMTP_FROM_EMAIL || "onboarding@resend.dev";
-      const receiverEmail = process.env.RECEIVER_EMAIL || "thaissilveiravieira7@hotmail.com";
+      const receiverEmailRaw = process.env.RECEIVER_EMAIL || "thaissilveiravieira7@hotmail.com";
 
-      let emailSent = false;
+      const receiverEmails = receiverEmailRaw.split(",").map(e => e.trim()).filter(e => e.length > 0);
+
+      let emailSentToAny = false;
+      const fromAddress = smtpFrom.includes("@") && !smtpFrom.includes("meuprimeiropet.com.br") ? smtpFrom : "onboarding@resend.dev";
 
       // 1. Try sending via Resend API if API Key is available
       if (resendApiKey) {
         console.log("Tentando enviar e-mail de agendamento via Resend API...");
-        try {
-          const fromAddress = smtpFrom.includes("@") && !smtpFrom.includes("meuprimeiropet.com.br") ? smtpFrom : "onboarding@resend.dev";
-          
-          const response = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${resendApiKey}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: `Meu Primeiro Pet <${fromAddress}>`,
-              to: receiverEmail,
-              subject: `📅 Solicitação de Consulta: ${petName || 'Pet'} (${tutorName || 'Tutor'})`,
-              html: emailHtml,
-            }),
-          });
+        for (const targetEmail of receiverEmails) {
+          try {
+            const response = await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${resendApiKey}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                from: `Meu Primeiro Pet <${fromAddress}>`,
+                to: targetEmail,
+                subject: `📅 Solicitação de Consulta: ${petName || 'Pet'} (${tutorName || 'Tutor'})`,
+                html: emailHtml,
+              }),
+            });
 
-          const responseData = await response.json() as any;
-          if (response.ok) {
-            console.log(`Appointment email successfully sent via Resend API to ${receiverEmail}`);
-            emailSent = true;
-            return res.json({ success: true, simulated: false, provider: "resend" });
-          } else {
-            console.error("Erro retornado pela API do Resend no agendamento:", responseData);
+            const responseData = await response.json() as any;
+            if (response.ok) {
+              console.log(`Appointment email successfully sent via Resend API to ${targetEmail}`);
+              emailSentToAny = true;
+            } else {
+              console.error(`Erro retornado pela API do Resend para ${targetEmail}:`, responseData);
+            }
+          } catch (err) {
+            console.error(`Erro ao enviar consulta via Resend para ${targetEmail}:`, err);
           }
-        } catch (resendError) {
-          console.error("Falha ao se comunicar com a API do Resend no agendamento:", resendError);
         }
       }
 
       // 2. Fallback to SMTP if Resend didn't send and SMTP is configured
-      if (!emailSent && smtpHost && smtpUser && smtpPass) {
-        const transport = nodemailer.createTransport({
-          host: smtpHost,
-          port: parseInt(smtpPort || "587"),
-          secure: smtpPort === "465",
-          auth: {
-            user: smtpUser,
-            pass: smtpPass,
-          },
-        });
+      if (!emailSentToAny && smtpHost && smtpUser && smtpPass) {
+        try {
+          const transport = nodemailer.createTransport({
+            host: smtpHost,
+            port: parseInt(smtpPort || "587"),
+            secure: smtpPort === "465",
+            auth: {
+              user: smtpUser,
+              pass: smtpPass,
+            },
+          });
 
-        await transport.sendMail({
-          from: `"Meu Primeiro Pet" <${smtpFrom}>`,
-          to: receiverEmail,
-          subject: `📅 Solicitação de Consulta: ${petName || 'Pet'} (${tutorName || 'Tutor'})`,
-          html: emailHtml,
-        });
-
-        console.log(`Appointment email successfully sent via SMTP to ${receiverEmail}`);
-        emailSent = true;
-        return res.json({ success: true, simulated: false, provider: "smtp" });
+          for (const targetEmail of receiverEmails) {
+            try {
+              await transport.sendMail({
+                from: `"Meu Primeiro Pet" <${smtpFrom}>`,
+                to: targetEmail,
+                subject: `📅 Solicitação de Consulta: ${petName || 'Pet'} (${tutorName || 'Tutor'})`,
+                html: emailHtml,
+              });
+              console.log(`Appointment email successfully sent via SMTP to ${targetEmail}`);
+              emailSentToAny = true;
+            } catch (err) {
+              console.error(`Erro ao enviar consulta via SMTP para ${targetEmail}:`, err);
+            }
+          }
+        } catch (smtpInitError) {
+          console.error("Erro ao inicializar SMTP:", smtpInitError);
+        }
       }
 
-      if (!emailSent) {
+      if (!emailSentToAny) {
         console.warn("Nenhuma configuração válida de e-mail encontrada para o agendamento.");
         return res.json({ 
           success: true, 
@@ -589,6 +652,8 @@ async function startServer() {
           message: "Agendamento recebido em modo de simulação!" 
         });
       }
+
+      return res.json({ success: true, simulated: false, provider: "real" });
     } catch (error: any) {
       console.error("Appointment Submission Error:", error);
       res.status(500).json({ 

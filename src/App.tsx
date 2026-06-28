@@ -588,19 +588,15 @@ export default function App() {
             <div className="absolute inset-0 bg-white/80 filter blur-[45px] rounded-full pointer-events-none z-[-1]" />
             
             <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.25em] uppercase font-sans">Soluções Completas</span>
-            <FadeIn>
-              <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center">
-                Como posso ajudar o seu pet?
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <p className="text-stone-700 font-medium text-sm md:text-base leading-relaxed max-w-xl mx-auto font-sans text-center mt-2">
-                Soluções científicas e personalizadas que promovem mais saúde, vitalidade e qualidade de vida para cães e gatos.
-              </p>
-            </FadeIn>
+            <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center mt-1">
+              Como posso ajudar o seu pet?
+            </h2>
+            <p className="text-stone-700 font-medium text-sm md:text-base leading-relaxed max-w-xl mx-auto font-sans text-center mt-2">
+              Soluções científicas e personalizadas que promovem mais saúde, vitalidade e qualidade de vida para cães e gatos.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {[
               {
                 title: "Filhotes, Adultos e idosos",
@@ -653,10 +649,10 @@ export default function App() {
                   scale: 1.02,
                   boxShadow: "0 20px 45px rgba(163,56,185,0.12), 0 0 20px rgba(163,56,185,0.04)" 
                 }}
-                className="bg-white shadow-[0_12px_32px_rgba(163,56,185,0.05),0_4px_12px_rgba(0,0,0,0.02)] rounded-[1.75rem] overflow-hidden group flex flex-col h-full text-left cursor-pointer transition-all duration-300"
+                className="bg-white shadow-[0_12px_32px_rgba(163,56,185,0.05),0_4px_12px_rgba(0,0,0,0.02)] rounded-[1.25rem] sm:rounded-[1.75rem] overflow-hidden group flex flex-col h-full text-left cursor-pointer transition-all duration-300"
                 onClick={card.action}
               >
-                <div className="h-36 w-full overflow-hidden shrink-0 relative bg-stone-100">
+                <div className="h-24 sm:h-36 w-full overflow-hidden shrink-0 relative bg-stone-100">
                   <img 
                     src={card.img} 
                     alt={card.title} 
@@ -665,22 +661,22 @@ export default function App() {
                     loading="lazy"
                     decoding="async"
                   />
-                  <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border border-stone-200/30 shadow-xs font-nunito font-bold">
+                  <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[8px] sm:text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-stone-200/30 shadow-xs font-nunito font-bold">
                     {card.badge}
                   </span>
                 </div>
                 
                 {/* Padding and interior spacing */}
-                <div className="p-5 flex-grow flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <h4 className="text-lg font-extrabold text-[#111827] font-nunito leading-tight">{card.title}</h4>
-                    <p className="text-[11px] text-[#a338b9] font-bold font-nunito leading-snug">{card.subtitle}</p>
-                    <p className="text-xs text-stone-700 leading-relaxed font-nunito font-semibold line-clamp-3 mt-1">{card.desc}</p>
+                <div className="p-3 sm:p-5 flex-grow flex flex-col justify-between">
+                  <div className="space-y-1 sm:space-y-2">
+                    <h4 className="text-sm sm:text-lg font-extrabold text-[#111827] font-nunito leading-tight line-clamp-2">{card.title}</h4>
+                    <p className="text-[10px] sm:text-[11px] text-[#a338b9] font-bold font-nunito leading-snug">{card.subtitle}</p>
+                    <p className="text-[11px] sm:text-xs text-stone-700 leading-relaxed font-nunito font-semibold line-clamp-3 mt-1">{card.desc}</p>
                   </div>
 
-                  <div className="pt-4 border-t border-stone-200/40 mt-4 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#a338b9] font-nunito group-hover:text-[#812099]">
-                    <span className="max-w-[85%] truncate">{card.footerText}</span>
-                    <ArrowUpRight size={13} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform shrink-0" />
+                  <div className="pt-2 sm:pt-4 border-t border-stone-200/40 mt-3 sm:mt-4 flex items-center justify-between text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#a338b9] font-nunito group-hover:text-[#812099]">
+                    <span className="max-w-[80%] truncate">{card.footerText}</span>
+                    <ArrowUpRight size={11} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform shrink-0" />
                   </div>
                 </div>
               </motion.div>
@@ -808,27 +804,23 @@ export default function App() {
           
           <div className="text-center mb-16 max-w-3xl mx-auto flex flex-col items-center space-y-3">
             <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.25em] uppercase font-sans">Sessões Individuais</span>
-            <FadeIn>
-              <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center">
-                Quer um acompanhamento clínico exclusivo?
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <p className="text-stone-700 font-semibold text-sm md:text-base leading-relaxed font-sans max-w-2xl text-center mt-2 mx-auto">
-                Se o seu pet possui alguma patologia diagnosticada (doença renal, obesidade severa, alergia grave ou diabetes) ou você prefere uma consulta tête-à-tête comigo, escolha um dos formatos abaixo:
-              </p>
-            </FadeIn>
+            <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center mt-1">
+              Quer um acompanhamento clínico exclusivo?
+            </h2>
+            <p className="text-stone-700 font-semibold text-sm md:text-base leading-relaxed font-sans max-w-2xl text-center mt-2 mx-auto">
+              Se o seu pet possui alguma patologia diagnosticada (doença renal, obesidade severa, alergia grave ou diabetes) ou você prefere uma consulta tête-à-tête comigo, escolha um dos formatos abaixo:
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
             
             {/* Format 1: Teleconsulta */}
             <FadeIn delay={0.05} className="h-full">
               <div 
                 style={{ willChange: "transform, box-shadow" }}
-                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
               >
-                <div className="h-60 w-full overflow-hidden relative bg-stone-100">
+                <div className="h-28 sm:h-60 w-full overflow-hidden relative bg-stone-100">
                   <img 
                     src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=500&q=70" 
                     alt="Teleconsulta com a médica veterinária Dra Thais" 
@@ -838,25 +830,25 @@ export default function App() {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute top-5 left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[9px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-stone-200/30">
+                  <span className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-4 py-1 sm:py-2 rounded-full border border-stone-200/30">
                     Nacional • 100% Online
                   </span>
                 </div>
-                <div className="p-8 flex flex-col flex-grow justify-between">
-                  <div className="space-y-3 mb-6">
-                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Digital</span>
-                    <h3 className="text-xl md:text-2xl font-semibold text-[#111827] font-display">Teleconsulta Nutricional</h3>
-                    <p className="text-xs text-stone-700 font-semibold leading-relaxed pt-2 font-nunito">
+                <div className="p-3.5 sm:p-8 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-3 mb-3.5 sm:mb-6">
+                    <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Digital</span>
+                    <h3 className="text-xs sm:text-xl md:text-2xl font-semibold text-[#111827] font-display">Teleconsulta Nutricional</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 sm:pt-2 font-nunito">
                       Para tutores de todo o Brasil e exterior. Um atendimento online minucioso de cerca de 1 hora, análise de exames recentes, receita de dieta natural balanceada ou suplementação ideal da ração enviada em PDF assinado digitalmente.
                     </p>
                   </div>
                   <button 
                     onClick={() => openConsulta('online')}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
+                    className="w-full py-2.5 sm:py-4 px-3 sm:px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
                   >
-                    <Calendar size={13} className="shrink-0" />
+                    <Calendar className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
                     <span>Agendar Teleconsulta</span>
-                    <ArrowUpRight size={13} className="shrink-0" />
+                    <ArrowUpRight className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
                   </button>
                 </div>
               </div>
@@ -866,9 +858,9 @@ export default function App() {
             <FadeIn delay={0.1} className="h-full">
               <div 
                 style={{ willChange: "transform, box-shadow" }}
-                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
               >
-                <div className="h-60 w-full overflow-hidden relative bg-stone-100">
+                <div className="h-28 sm:h-60 w-full overflow-hidden relative bg-stone-100">
                   <img 
                     src="https://images.pexels.com/photos/8473448/pexels-photo-8473448.jpeg?auto=compress&cs=tinysrgb&w=500&q=70" 
                     alt="Atendimento clínico direto no consultório em São Paulo" 
@@ -878,39 +870,39 @@ export default function App() {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute top-5 left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[9px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-stone-200/30">
+                  <span className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-4 py-1 sm:py-2 rounded-full border border-stone-200/30">
                     São Paulo Capital • Presencial
                   </span>
                 </div>
-                <div className="p-8 flex flex-col flex-grow justify-between">
-                  <div className="space-y-3 mb-6">
-                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Consultório</span>
-                    <h3 className="text-xl md:text-2xl font-semibold text-[#111827] font-display">Consulta Presencial</h3>
-                    <p className="text-xs text-stone-700 font-semibold leading-relaxed pt-2 font-nunito">
+                <div className="p-3.5 sm:p-8 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-3 mb-3.5 sm:mb-6">
+                    <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Consultório</span>
+                    <h3 className="text-xs sm:text-xl md:text-2xl font-semibold text-[#111827] font-display">Consulta Presencial</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 sm:pt-2 font-nunito">
                       Realizada em clínica estruturada na cidade de São Paulo. Inclui exame físico geral, aferição de score de gordura corporal, bioimpedância, e elaboração minuciosa do guia alimentar clínico individualizado para seu amigo de quatro patas.
                     </p>
                   </div>
                   <button 
                     onClick={() => openConsulta('presencial')}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
+                    className="w-full py-2.5 sm:py-4 px-3 sm:px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
                   >
-                    <MapPin size={13} className="shrink-0" />
+                    <MapPin className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
                     <span>Agendar Presencial</span>
-                    <ArrowUpRight size={13} className="shrink-0" />
+                    <ArrowUpRight className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
                   </button>
                 </div>
               </div>
             </FadeIn>
 
             {/* Format 3: Convênio */}
-            <FadeIn delay={0.15} className="h-full">
+            <FadeIn delay={0.15} className="h-full col-span-2 md:col-span-1">
               <div 
                 style={{ willChange: "transform, box-shadow" }}
-                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
               >
-                <div className="h-60 w-full overflow-hidden relative bg-stone-100">
+                <div className="h-28 sm:h-60 w-full overflow-hidden relative bg-stone-100">
                   <img 
-                    src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=500&q=70" 
+                    src="https://img.freepik.com/fotos-premium/pessoa-feminina-segurando-smartphone-nas-maos-enquanto-deitada-no-sofa-em-casa-com-sua-ia-generativa_874904-125864.jpg?semt=ais_hybrid&w=740&q=80" 
                     alt="Atendimento veterinário por plano de saúde e convênio" 
                     className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-95"
                     referrerPolicy="no-referrer"
@@ -918,25 +910,25 @@ export default function App() {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute top-5 left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[9px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-stone-200/30">
+                  <span className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-4 py-1 sm:py-2 rounded-full border border-stone-200/30">
                     Planos de Saúde • Reembolso
                   </span>
                 </div>
-                <div className="p-8 flex flex-col flex-grow justify-between">
-                  <div className="space-y-3 mb-6">
-                    <span className="text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Uso de Benefício</span>
-                    <h3 className="text-xl md:text-2xl font-semibold text-[#111827] font-display">Atendimento pelo Convênio</h3>
-                    <p className="text-xs text-stone-700 font-semibold leading-relaxed pt-2 font-nunito">
+                <div className="p-3.5 sm:p-8 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-3 mb-3.5 sm:mb-6">
+                    <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Uso de Benefício</span>
+                    <h3 className="text-xs sm:text-xl md:text-2xl font-semibold text-[#111827] font-display">Atendimento pelo Convênio</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 sm:pt-2 font-nunito">
                       Seu pet tem plano de saúde? Diversas operadoras trabalham com sistema de livre escolha e reembolso para consultas com especialistas. Fale comigo para saber mais e agendar pelo convênio!
                     </p>
                   </div>
                   <button 
                     onClick={() => openConsulta('insurance')}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-2xl text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
+                    className="w-full py-2.5 sm:py-4 px-3 sm:px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
                   >
-                    <MessageSquare size={13} className="shrink-0" />
+                    <MessageSquare className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
                     <span>Agendar pelo Convênio</span>
-                    <ArrowUpRight size={13} className="shrink-0" />
+                    <ArrowUpRight className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
                   </button>
                 </div>
               </div>
@@ -1063,7 +1055,7 @@ export default function App() {
         {/* Background Image with optimized visibility and text contrast */}
         <div className="absolute inset-0 -z-10 w-full h-full overflow-hidden">
           <img 
-            src="https://images.pexels.com/photos/8434727/pexels-photo-8434727.jpeg" 
+            src="https://images.pexels.com/photos/8434727/pexels-photo-8434727.jpeg?auto=compress&cs=tinysrgb&w=1200&q=70" 
             alt="Fundo Veterinário Longevidade" 
             className="w-full h-full object-cover object-center"
             referrerPolicy="no-referrer"

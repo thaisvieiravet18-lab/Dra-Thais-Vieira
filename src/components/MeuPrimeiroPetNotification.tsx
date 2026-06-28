@@ -45,7 +45,7 @@ export function MeuPrimeiroPetNotification() {
           {/* Background Image Container */}
           <div className="absolute inset-0 -z-10 w-full h-full">
             <img 
-              src="https://images.pexels.com/photos/8434641/pexels-photo-8434641.jpeg" 
+              src="https://images.pexels.com/photos/8434641/pexels-photo-8434641.jpeg?auto=compress&cs=tinysrgb&w=600&q=75" 
               alt="Alimentação saudável pet" 
               className="w-full h-full object-cover object-[center_30%]"
               referrerPolicy="no-referrer"
