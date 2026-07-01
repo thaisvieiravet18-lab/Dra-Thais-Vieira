@@ -36,22 +36,13 @@ import { WhatsAppFloat } from './components/WhatsAppFloat';
 import { MeuPrimeiroPet } from './components/MeuPrimeiroPet';
 import { MeuPrimeiroPetNotification } from './components/MeuPrimeiroPetNotification';
 import { AbordagemDiagram } from './components/AbordagemDiagram';
+import { safeLocalStorage } from './lib/storage';
 
 // Generated customized images for the four core section cards
 import choiceFoodImg from './assets/images/escolha_racao_1781640644270.jpg';
 import idealQuantityImg from './assets/images/quantidade_ideal_1781640656721.jpg';
 import healthyTreatsImg from './assets/images/petiscos_saudaveis_1781640666469.jpg';
 import dailyHealthImg from './assets/images/saude_diaria_1781640678043.jpg';
-import dietNaturalImg from './assets/images/alimentacao_natural_1782078363609.jpg';
-import dietMistaImg from './assets/images/dieta_mista_1782078374551.jpg';
-import dietRacaoImg from './assets/images/orientacao_racao_1782078386233.jpg';
-import myPlanoPetImg from './assets/images/meu_plano_pet_1782078396572.jpg';
-import horariosDosesImg from './assets/images/horarios_doses_1782078406873.jpg';
-
-// WhatsApp real interaction prints for testimonials
-import quinhaWhatsappImg from './assets/images/quinha_whatsapp_1782143066489.jpg';
-import pacocaWhatsappImg from './assets/images/pacoca_whatsapp_1782143080321.jpg';
-import pitocoWhatsappImg from './assets/images/pitoco_whatsapp_1782143094764.jpg';
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,7 +95,7 @@ export default function App() {
   ];
 
   const [photos, setPhotos] = useState<Array<{ url: string; alt: string; className: string }>>(() => {
-    const saved = localStorage.getItem('hero_photos_v7');
+    const saved = safeLocalStorage.getItem('hero_photos_v7');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -119,7 +110,7 @@ export default function App() {
               },
               ...parsed
             ];
-            localStorage.setItem('hero_photos_v7', JSON.stringify(updated));
+            safeLocalStorage.setItem('hero_photos_v7', JSON.stringify(updated));
             return updated;
           }
           return parsed;
@@ -185,7 +176,7 @@ export default function App() {
 
         const updated = [...photos, newPhoto];
         setPhotos(updated);
-        localStorage.setItem('hero_photos_v7', JSON.stringify(updated));
+        safeLocalStorage.setItem('hero_photos_v7', JSON.stringify(updated));
         setCurrentPhotoIndex(updated.length - 1);
       };
     };
@@ -196,7 +187,7 @@ export default function App() {
     if (photos.length <= 1) return;
     const updated = photos.filter((_, idx) => idx !== currentPhotoIndex);
     setPhotos(updated);
-    localStorage.setItem('hero_photos_v7', JSON.stringify(updated));
+    safeLocalStorage.setItem('hero_photos_v7', JSON.stringify(updated));
     setCurrentPhotoIndex(0);
   };
   
@@ -596,7 +587,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
             {[
               {
                 title: "Filhotes, Adultos e idosos",
@@ -675,7 +666,7 @@ export default function App() {
                   </div>
 
                   <div className="pt-2 sm:pt-4 border-t border-stone-200/40 mt-3 sm:mt-4 flex items-center justify-between text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#a338b9] font-nunito group-hover:text-[#812099]">
-                    <span className="max-w-[80%] truncate">{card.footerText}</span>
+                    <span className="max-w-[80%] break-words">{card.footerText}</span>
                     <ArrowUpRight size={11} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform shrink-0" />
                   </div>
                 </div>
@@ -730,11 +721,8 @@ export default function App() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#13011b]/80 via-transparent to-transparent pointer-events-none" />
                   
-                  {/* CRMV details inside image - centered and elevated slightly to prevent organic clipping */}
+                  {/* Professional details inside image - centered and elevated slightly to prevent organic clipping */}
                   <div className="absolute bottom-6 left-0 right-0 px-6 text-center text-white space-y-1 z-20">
-                    <span className="inline-block text-[9px] font-black tracking-widest text-[#e8c3fc] uppercase bg-[#1d002e]/65 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/10">
-                      CRMV-SP 52.883
-                    </span>
                     <h3 className="text-base sm:text-lg font-black font-display uppercase tracking-tight text-white drop-shadow-md">
                       Dra. Thais Vieira
                     </h3>
@@ -755,7 +743,7 @@ export default function App() {
                 </p>
 
                 {/* Grid of Highlight Badges */}
-                <div className="grid grid-cols-2 gap-2 pt-4 text-white font-sans font-semibold text-xs">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 pt-4 text-white font-sans font-semibold text-xs">
                   {[
                     "Médica veterinária",
                     "Nutricionista pet",
@@ -766,7 +754,7 @@ export default function App() {
                   ].map((hl, hlIdx) => (
                     <div key={hlIdx} className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/10 px-2.5 py-1.5 rounded-lg hover:bg-white/15 hover:border-white/20 transition-all duration-300">
                       <Check className="text-[#e8c3fc] shrink-0" size={14} />
-                      <span className="truncate">{hl}</span>
+                      <span className="break-words">{hl}</span>
                     </div>
                   ))}
                 </div>
@@ -812,7 +800,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
             
             {/* Format 1: Teleconsulta */}
             <FadeIn delay={0.05} className="h-full">
@@ -1168,7 +1156,6 @@ export default function App() {
               <p className="leading-relaxed">
                 As consultorias do Meu Primeiro Pet não representam diagnóstico médico final e não substituem o acompanhamento completo em consultório físico veterinário em casos de quadros patológicos agudos do animal.
               </p>
-              <p className="font-bold text-[#111827]">CRMV-SP 52.883</p>
             </div>
 
           </div>

@@ -36,7 +36,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       title: "Comida de verdade para uma vida plena",
       desc: "Ingredientes frescos e cozidos sob medida, calculados e suplementados para cobrir todas as necessidades individuais do seu pet.",
       icon: <Leaf size={18} />,
-      img: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=500&q=80",
+      img: "https://www.petz.com.br/blog/wp-content/uploads/2019/11/alimentacao-natural-cachorro.jpg",
       accentColor: "from-emerald-500 to-teal-600",
       leftFeatures: [
         {
@@ -69,7 +69,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       title: "O melhor de dois mundos",
       desc: "A união inteligente da praticidade da ração seca com a rica hidratação e palatabilidade da alimentação natural fresca.",
       icon: <Sparkles size={18} />,
-      img: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=500&q=80",
+      img: "https://cachorroverde.com.br/wp-content/uploads/2024/11/1-2.png",
       accentColor: "from-amber-500 to-orange-600",
       leftFeatures: [
         {
@@ -102,7 +102,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
       title: "Ração Premium Otimizada",
       desc: "Escolha científica da melhor ração do mercado (super premium ou terapêutica) e cálculo exato de quantidade para evitar sobrepeso.",
       icon: <Bone size={18} />,
-      img: "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?auto=format&fit=crop&w=500&q=80",
+      img: "https://petcare.com.br/wp-content/uploads/2023/08/cachorro-branco-e-marrom-faminto-com-orelhas-grandes-e-olhos-castanhos-prontos-para-comer-uma-tigela-cheia-de-comida-1.jpg",
       accentColor: "from-indigo-500 to-purple-600",
       leftFeatures: [
         {
@@ -170,7 +170,6 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
             return (
               <button
                 key={modeKey}
-                onMouseEnter={() => setActiveMode(modeKey)}
                 onClick={() => setActiveMode(modeKey)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs md:text-sm font-bold tracking-tight transition-all duration-300 whitespace-nowrap outline-none ${
                   isActive
@@ -199,7 +198,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -30 }}
               transition={{ duration: 0.4 }}
-              className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:space-y-10 text-left"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:space-y-10 text-left"
             >
               {current.leftFeatures.map((feat, idx) => (
                 <div key={idx} className="group flex flex-col sm:flex-row items-start gap-3 sm:gap-4 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-stone-50 transition-colors duration-300" id={`feat-left-${activeMode}-${idx}`}>
@@ -268,7 +267,7 @@ export function AbordagemDiagram({ openConsulta }: AbordagemDiagramProps) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 30 }}
               transition={{ duration: 0.4 }}
-              className="grid grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:space-y-10 text-left"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-0 lg:space-y-10 text-left"
             >
               {current.rightFeatures.map((feat, idx) => (
                 <div key={idx} className="group flex flex-col sm:flex-row items-start lg:items-start gap-3 sm:gap-4 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-stone-50 transition-colors duration-300" id={`feat-right-${activeMode}-${idx}`}>

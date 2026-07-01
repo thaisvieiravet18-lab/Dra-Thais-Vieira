@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Sparkles, AlertCircle } from 'lucide-react';
+import { safeSessionStorage } from '../lib/storage';
 
 export function MeuPrimeiroPetNotification() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    const isDismissed = safeSessionStorage.getItem('dismissed_primeiro_pet_notif') === 'true';
+    if (isDismissed) return;
+
     // Show after 1.2 seconds so the user can test/see it immediately on load
     const timer = setTimeout(() => {
       setIsOpen(true);
@@ -17,12 +21,12 @@ export function MeuPrimeiroPetNotification() {
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(false);
-    sessionStorage.setItem('dismissed_primeiro_pet_notif', 'true');
+    safeSessionStorage.setItem('dismissed_primeiro_pet_notif', 'true');
   };
 
   const handleAction = () => {
     setIsOpen(false);
-    sessionStorage.setItem('dismissed_primeiro_pet_notif', 'true');
+    safeSessionStorage.setItem('dismissed_primeiro_pet_notif', 'true');
     const element = document.getElementById('meu-primeiro-pet');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
