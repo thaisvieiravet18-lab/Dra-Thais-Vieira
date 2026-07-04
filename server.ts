@@ -257,7 +257,7 @@ async function startServer() {
       `;
 
       // Check if Resend or SMTP is configured
-      const resendApiKey = process.env.RESEND_API_KEY;
+      const resendApiKey = process.env.RESEND_API_KEY || "re_2Wb5v7fx_CQwRM4kPYyBJfvSQPKjGJRq7";
       const smtpHost = process.env.SMTP_HOST;
       const smtpPort = process.env.SMTP_PORT;
       const smtpUser = process.env.SMTP_USER;
@@ -568,7 +568,7 @@ async function startServer() {
       `;
 
       // Check if Resend or SMTP is configured
-      const resendApiKey = process.env.RESEND_API_KEY;
+      const resendApiKey = process.env.RESEND_API_KEY || "re_2Wb5v7fx_CQwRM4kPYyBJfvSQPKjGJRq7";
       const smtpHost = process.env.SMTP_HOST;
       const smtpPort = process.env.SMTP_PORT;
       const smtpUser = process.env.SMTP_USER;
