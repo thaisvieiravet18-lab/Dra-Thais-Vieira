@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
@@ -256,7 +257,7 @@ async function startServer() {
       `;
 
       // Check if Resend or SMTP is configured
-      const resendApiKey = process.env.RESEND_API_KEY || "re_ZDWMvde3_Hp8gVTE4wphrVu4XMj8kdJic";
+      const resendApiKey = process.env.RESEND_API_KEY;
       const smtpHost = process.env.SMTP_HOST;
       const smtpPort = process.env.SMTP_PORT;
       const smtpUser = process.env.SMTP_USER;
@@ -567,7 +568,7 @@ async function startServer() {
       `;
 
       // Check if Resend or SMTP is configured
-      const resendApiKey = process.env.RESEND_API_KEY || "re_ZDWMvde3_Hp8gVTE4wphrVu4XMj8kdJic";
+      const resendApiKey = process.env.RESEND_API_KEY;
       const smtpHost = process.env.SMTP_HOST;
       const smtpPort = process.env.SMTP_PORT;
       const smtpUser = process.env.SMTP_USER;
