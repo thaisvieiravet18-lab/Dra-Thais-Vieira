@@ -8,6 +8,54 @@ import nodemailer from "nodemailer";
 
 const PORT = 3000;
 
+const DEFAULT_RESEND_API_KEY = "re_2Wb5v7fx_CQwRM4kPYyBJfvSQPKjGJRq7";
+const DEFAULT_RECEIVER_EMAIL = "thaissilveiravieira7@hotmail.com";
+
+function resolveResendApiKey(): string {
+  let key = process.env.RESEND_API_KEY;
+  if (!key || typeof key !== "string") {
+    console.log(`[Email Config] RESEND_API_KEY não definido. Usando padrão.`);
+    return DEFAULT_RESEND_API_KEY;
+  }
+  key = key.replace(/^["']|["']$/g, "").trim();
+  if (
+    key === "" || 
+    key === "undefined" || 
+    !key.startsWith("re_") ||
+    key.length < 10
+  ) {
+    console.log(`[Email Config] RESEND_API_KEY inválido ou placeholder ("${key}"). Usando padrão.`);
+    return DEFAULT_RESEND_API_KEY;
+  }
+  const masked = key.slice(0, 6) + "..." + key.slice(-4);
+  console.log(`[Email Config] Usando RESEND_API_KEY configurado pelo usuário: ${masked}`);
+  return key;
+}
+
+function resolveReceiverEmails(): string[] {
+  let raw = process.env.RECEIVER_EMAIL;
+  if (!raw || typeof raw !== "string") {
+    console.log(`[Email Config] RECEIVER_EMAIL não definido. Usando padrão.`);
+    return [DEFAULT_RECEIVER_EMAIL];
+  }
+  raw = raw.replace(/^["']|["']$/g, "").trim();
+  if (
+    raw === "" || 
+    raw === "undefined" || 
+    !raw.includes("@")
+  ) {
+    console.log(`[Email Config] RECEIVER_EMAIL inválido ou placeholder ("${raw}"). Usando padrão.`);
+    return [DEFAULT_RECEIVER_EMAIL];
+  }
+  const list = raw.split(",").map(e => e.trim()).filter(e => e.length > 0 && e.includes("@"));
+  if (list.length === 0) {
+    console.log(`[Email Config] Lista de e-mails vazia após validação. Usando padrão.`);
+    return [DEFAULT_RECEIVER_EMAIL];
+  }
+  console.log(`[Email Config] Destinatários resolvidos:`, list);
+  return list;
+}
+
 async function startServer() {
   const app = express();
   app.use(express.json());
@@ -257,22 +305,20 @@ async function startServer() {
       `;
 
       // Check if Resend or SMTP is configured
-      const resendApiKey = process.env.RESEND_API_KEY || "re_2Wb5v7fx_CQwRM4kPYyBJfvSQPKjGJRq7";
+      const resendApiKey = resolveResendApiKey();
       const smtpHost = process.env.SMTP_HOST;
       const smtpPort = process.env.SMTP_PORT;
       const smtpUser = process.env.SMTP_USER;
       const smtpPass = process.env.SMTP_PASS;
       const smtpFrom = process.env.SMTP_FROM_EMAIL || "onboarding@resend.dev";
-      const receiverEmailRaw = process.env.RECEIVER_EMAIL || "thaissilveiravieira7@hotmail.com";
+      const receiverEmails = resolveReceiverEmails();
       
-      const receiverEmails = receiverEmailRaw.split(",").map(e => e.trim()).filter(e => e.length > 0);
-
       let emailSentToAny = false;
       const fromAddress = smtpFrom.includes("@") ? smtpFrom : "onboarding@resend.dev";
 
       // 1. Try sending via Resend API if API Key is available
       if (resendApiKey) {
-        console.log("Tentando enviar e-mails via Resend API...");
+        console.log(`Tentando enviar e-mails via Resend API para: ${receiverEmails.join(", ")}...`);
         for (const targetEmail of receiverEmails) {
           try {
             const response = await fetch("https://api.resend.com/emails", {
@@ -568,22 +614,20 @@ async function startServer() {
       `;
 
       // Check if Resend or SMTP is configured
-      const resendApiKey = process.env.RESEND_API_KEY || "re_2Wb5v7fx_CQwRM4kPYyBJfvSQPKjGJRq7";
+      const resendApiKey = resolveResendApiKey();
       const smtpHost = process.env.SMTP_HOST;
       const smtpPort = process.env.SMTP_PORT;
       const smtpUser = process.env.SMTP_USER;
       const smtpPass = process.env.SMTP_PASS;
       const smtpFrom = process.env.SMTP_FROM_EMAIL || "onboarding@resend.dev";
-      const receiverEmailRaw = process.env.RECEIVER_EMAIL || "thaissilveiravieira7@hotmail.com";
-
-      const receiverEmails = receiverEmailRaw.split(",").map(e => e.trim()).filter(e => e.length > 0);
+      const receiverEmails = resolveReceiverEmails();
 
       let emailSentToAny = false;
       const fromAddress = smtpFrom.includes("@") ? smtpFrom : "onboarding@resend.dev";
 
       // 1. Try sending via Resend API if API Key is available
       if (resendApiKey) {
-        console.log("Tentando enviar e-mail de agendamento via Resend API...");
+        console.log(`Tentando enviar e-mail de agendamento via Resend API para: ${receiverEmails.join(", ")}...`);
         for (const targetEmail of receiverEmails) {
           try {
             const response = await fetch("https://api.resend.com/emails", {
