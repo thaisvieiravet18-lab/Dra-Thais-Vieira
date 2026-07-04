@@ -34,7 +34,7 @@ export const ConsultaModal = ({
 
     try {
       // Send the appointment details to the backend to email Dra. Thais
-      await fetch('/api/submit_appointment', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -49,8 +49,14 @@ export const ConsultaModal = ({
           format
         })
       });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        alert('Ocorreu um erro ao enviar seu agendamento por e-mail: ' + (errData.error || 'Por favor, prossiga pelo WhatsApp.'));
+      }
     } catch (err) {
       console.error('Erro ao enviar agendamento por e-mail:', err);
+      alert('Não foi possível enviar por e-mail, mas você pode finalizar pelo WhatsApp a seguir.');
     }
     
     const goals: { [key: string]: string } = {

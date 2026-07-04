@@ -46,7 +46,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/submit_form', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
