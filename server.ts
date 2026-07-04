@@ -268,7 +268,7 @@ async function startServer() {
       const receiverEmails = receiverEmailRaw.split(",").map(e => e.trim()).filter(e => e.length > 0);
 
       let emailSentToAny = false;
-      const fromAddress = smtpFrom.includes("@") && !smtpFrom.includes("meuprimeiropet.com.br") ? smtpFrom : "onboarding@resend.dev";
+      const fromAddress = smtpFrom.includes("@") ? smtpFrom : "onboarding@resend.dev";
 
       // 1. Try sending via Resend API if API Key is available
       if (resendApiKey) {
@@ -579,7 +579,7 @@ async function startServer() {
       const receiverEmails = receiverEmailRaw.split(",").map(e => e.trim()).filter(e => e.length > 0);
 
       let emailSentToAny = false;
-      const fromAddress = smtpFrom.includes("@") && !smtpFrom.includes("meuprimeiropet.com.br") ? smtpFrom : "onboarding@resend.dev";
+      const fromAddress = smtpFrom.includes("@") ? smtpFrom : "onboarding@resend.dev";
 
       // 1. Try sending via Resend API if API Key is available
       if (resendApiKey) {
