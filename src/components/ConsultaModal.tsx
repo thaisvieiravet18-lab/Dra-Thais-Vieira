@@ -53,11 +53,15 @@ export const ConsultaModal = ({
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        alert('Ocorreu um erro ao enviar seu agendamento por e-mail: ' + (errData.error || 'Por favor, prossiga pelo WhatsApp.'));
+        alert('Ocorreu um erro ao enviar seu agendamento: ' + (errData.error || 'Por favor, tente novamente.'));
+        setIsSubmitting(false);
+        return;
       }
     } catch (err) {
       console.error('Erro ao enviar agendamento por e-mail:', err);
-      alert('Não foi possível enviar por e-mail, mas você pode finalizar pelo WhatsApp a seguir.');
+      alert('Não foi possível enviar por e-mail, por favor, tente novamente.');
+      setIsSubmitting(false);
+      return;
     }
     
     const goals: { [key: string]: string } = {

@@ -72,12 +72,11 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
         setStep('success');
       } else {
         const errData = await response.json().catch(() => ({}));
-        alert('Ocorreu um erro ao enviar suas respostas: ' + (errData.error || 'Tente novamente.'));
+        alert('Ocorreu um erro ao enviar suas respostas: ' + (errData.error || 'Por favor, tente novamente.'));
       }
     } catch (err) {
       console.error(err);
-      // Fallback: still transition to success on network disconnect so they can proceed of blocks
-      setStep('success');
+      alert('Não foi possível enviar suas respostas por e-mail. Verifique sua conexão e tente novamente.');
     } finally {
       setIsSubmitting(false);
     }
