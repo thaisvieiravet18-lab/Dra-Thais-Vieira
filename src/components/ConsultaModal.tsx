@@ -155,7 +155,7 @@ export const ConsultaModal = ({
                 <p className="!text-stone-700 font-medium text-sm md:text-base mb-6">
                   Preencha os dados básicos abaixo para solicitar sua consulta nutricional personalizada (Atendimento Online para todo o Brasil ou Presencial em São Paulo).
                 </p>
-                <form method="POST" action="https://formspree.io/f/xdardbyg" onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Seu Nome Completo (Tutor/a)</label>

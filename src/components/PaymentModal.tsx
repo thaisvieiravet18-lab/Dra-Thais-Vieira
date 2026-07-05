@@ -179,7 +179,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                   </div>
                 </div>
 
-                <form method="POST" action="https://formspree.io/f/xdardbyg" onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* TUTOR SECTION */}
                   <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-stone-200/45 space-y-4">
                     <h3 className="text-[#a338b9] font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-2">
