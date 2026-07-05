@@ -46,16 +46,32 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/send-email', {
+      const response = await fetch('https://formspree.io/f/xdardbyg', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          nome: formData.tutorName,
+          email: formData.tutorEmail,
+          telefone: formData.tutorPhone,
+          nome_pet: formData.name,
+          tipo_pet: formData.type === 'dog' ? 'Cão 🐶' : 'Gato 🐱',
+          idade_pet: formData.age,
+          peso_atual: formData.weight,
+          peso_ideal: formData.idealWeight,
+          nivel_atividade: formData.activity,
+          apetite: formData.eatsWell,
+          racao_atual: formData.currentFood,
+          mensagem: formData.health
+        }),
       });
 
       if (response.ok) {
         setStep('success');
       } else {
-        const errData = await response.json();
+        const errData = await response.json().catch(() => ({}));
         alert('Ocorreu um erro ao enviar suas respostas: ' + (errData.error || 'Tente novamente.'));
       }
     } catch (err) {
@@ -164,7 +180,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form method="POST" action="https://formspree.io/f/xdardbyg" onSubmit={handleSubmit} className="space-y-6">
                   {/* TUTOR SECTION */}
                   <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-stone-200/45 space-y-4">
                     <h3 className="text-[#a338b9] font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-2">
@@ -176,6 +192,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                       <input 
                         required 
                         type="text" 
+                        name="nome"
                         className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.tutorName ? 'border-red-500' : 'border-stone-200'} bg-white text-sm outline-none`} 
                         placeholder="Ex: Ana Maria Silva"
                         value={formData.tutorName} 
@@ -192,6 +209,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                           <input 
                             required 
                             type="email" 
+                            name="email"
                             className={`modal-input w-full pl-10 pr-4 py-3 rounded-xl border ${errors.tutorEmail ? 'border-red-500' : 'border-stone-200'} bg-white text-sm outline-none`} 
                             placeholder="Ex: tutor@email.com"
                             value={formData.tutorEmail} 
@@ -208,6 +226,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                           <input 
                             required 
                             type="tel" 
+                            name="telefone"
                             className={`modal-input w-full pl-10 pr-4 py-3 rounded-xl border ${errors.tutorPhone ? 'border-red-500' : 'border-stone-200'} bg-white text-sm outline-none`} 
                             placeholder="Ex: (11) 99999-9999"
                             value={formData.tutorPhone} 
@@ -231,6 +250,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                         <input 
                           required 
                           type="text" 
+                          name="nome_pet"
                           className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.name ? 'border-red-500' : 'border-stone-200'} bg-white text-sm`} 
                           placeholder="Ex: Bob, Mel, Frida..."
                           value={formData.name} 
@@ -241,6 +261,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                       <div>
                         <label className="block text-stone-700 text-xs font-bold mb-1.5">Espécie *</label>
                         <select 
+                          name="tipo_pet"
                           className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm cursor-pointer" 
                           value={formData.type}
                           onChange={(e) => setFormData({...formData, type: e.target.value})}
@@ -255,6 +276,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                         <input 
                           required 
                           type="text" 
+                          name="idade_pet"
                           className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.age ? 'border-red-500' : 'border-stone-200'} bg-white text-sm`} 
                           placeholder="Ex: 2 anos / 8 meses"
                           value={formData.age} 
@@ -269,6 +291,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                         <input 
                           required 
                           type="text" 
+                          name="peso_atual"
                           className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.weight ? 'border-red-500' : 'border-stone-200'} bg-white text-sm`} 
                           placeholder="Ex: 8.5 ou 15"
                           value={formData.weight} 
@@ -280,6 +303,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                         <label className="block text-stone-700 text-xs font-bold mb-1.5">Peso Ideal / Meta se souber (kg)</label>
                         <input 
                           type="text" 
+                          name="peso_ideal"
                           className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm" 
                           placeholder="Ex: 7.0 (Opcional)"
                           value={formData.idealWeight} 
@@ -291,6 +315,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                     <div>
                       <label className="block text-stone-700 text-xs font-bold mb-1.5">Nível de Atividade Diária</label>
                       <select 
+                        name="nivel_atividade"
                         className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm cursor-pointer" 
                         value={formData.activity}
                         onChange={(e) => setFormData({...formData, activity: e.target.value})}
@@ -305,6 +330,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                       <div>
                         <label className="block text-stone-700 text-xs font-bold mb-1.5">Gosta de comer a ração?</label>
                         <select 
+                          name="apetite"
                           className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm cursor-pointer" 
                           value={formData.eatsWell}
                           onChange={(e) => setFormData({...formData, eatsWell: e.target.value})}
@@ -319,6 +345,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                         <label className="block text-stone-700 text-xs font-bold mb-1.5">Ração Atual (Marca/Linha)</label>
                         <input 
                           type="text" 
+                          name="racao_atual"
                           className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm" 
                           placeholder="Ex: Premier Adultos Seleção Natural"
                           value={formData.currentFood} 
@@ -331,6 +358,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                       <label className="block text-stone-700 text-xs font-bold mb-1.5">Tem alguma alergia, doença crônica ou queixa de saúde?</label>
                       <textarea 
                         rows={3}
+                        name="mensagem"
                         className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm outline-none" 
                         placeholder="Ex: Alergia a frango, problema renal crônico nascente, gastrite, nenhuma reatividade..."
                         value={formData.health} 

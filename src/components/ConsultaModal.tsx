@@ -33,20 +33,21 @@ export const ConsultaModal = ({
     setIsSubmitting(true);
 
     try {
-      // Send the appointment details to the backend to email Dra. Thais
-      const response = await fetch('/api/send-email', {
+      // Send the appointment details to Formspree
+      const response = await fetch('https://formspree.io/f/xdardbyg', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
-          tutorName,
-          petName,
-          petType,
-          breed,
-          whatsapp,
-          reason,
-          format
+          nome: tutorName,
+          formato: format,
+          nome_pet: petName,
+          tipo_pet: petType === 'dog' ? 'Cão 🐶' : 'Gato 🐱',
+          raca: breed,
+          telefone: whatsapp,
+          mensagem: reason
         })
       });
 
@@ -150,16 +151,16 @@ export const ConsultaModal = ({
                 <p className="!text-stone-700 font-medium text-sm md:text-base mb-6">
                   Preencha os dados básicos abaixo para solicitar sua consulta nutricional personalizada (Atendimento Online para todo o Brasil ou Presencial em São Paulo).
                 </p>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form method="POST" action="https://formspree.io/f/xdardbyg" onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Seu Nome Completo (Tutor/a)</label>
-                      <input required type="text" className="modal-input !mb-0" placeholder="Digite seu nome"
+                      <input required type="text" name="nome" className="modal-input !mb-0" placeholder="Digite seu nome"
                         value={tutorName} onChange={(e) => setTutorName(e.target.value)} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Formato de Atendimento</label>
-                      <select className="modal-input !mb-0 bg-stone-50 text-stone-800 font-medium" value={format}
+                      <select name="formato" className="modal-input !mb-0 bg-stone-50 text-stone-800 font-medium" value={format}
                         onChange={(e) => setFormat(e.target.value as any)}>
                         <option value="online">Online (Teleconsulta para todo o Brasil)</option>
                         <option value="presencial">Presencial (Consultório em São Paulo - SP)</option>
@@ -170,12 +171,12 @@ export const ConsultaModal = ({
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Nome do Pet</label>
-                      <input required type="text" className="modal-input !mb-0" placeholder="Ex: Mel"
+                      <input required type="text" name="nome_pet" className="modal-input !mb-0" placeholder="Ex: Mel"
                         value={petName} onChange={(e) => setPetName(e.target.value)} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Cão ou Gato?</label>
-                      <select className="modal-input !mb-0 bg-stone-50" value={petType}
+                      <select name="tipo_pet" className="modal-input !mb-0 bg-stone-50" value={petType}
                         onChange={(e) => setPetType(e.target.value)}>
                         <option value="dog">Cão</option>
                         <option value="cat">Gato</option>
@@ -185,18 +186,18 @@ export const ConsultaModal = ({
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Raça / Porte</label>
-                      <input required type="text" className="modal-input !mb-0" placeholder="Ex: Golden, SRD..."
+                      <input required type="text" name="raca" className="modal-input !mb-0" placeholder="Ex: Golden, SRD..."
                         value={breed} onChange={(e) => setBreed(e.target.value)} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-stone-600 mb-1">Seu WhatsApp</label>
-                      <input required type="tel" className="modal-input !mb-0" placeholder="Ex: (11) 99999-9999"
+                      <input required type="tel" name="telefone" className="modal-input !mb-0" placeholder="Ex: (11) 99999-9999"
                         value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
                     </div>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-stone-600 mb-1">Foco Principal da Consulta</label>
-                    <select className="modal-input !mb-0 bg-stone-50 text-stone-800" value={reason}
+                    <select name="mensagem" className="modal-input !mb-0 bg-stone-50 text-stone-800" value={reason}
                       onChange={(e) => setReason(e.target.value)}>
                       <option value="preventive">Saúde preventiva / Ração ideal e quantidades</option>
                       <option value="natural">Quero transicionar para Alimentação Natural (AN)</option>
