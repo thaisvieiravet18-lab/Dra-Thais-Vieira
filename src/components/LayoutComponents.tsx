@@ -17,7 +17,7 @@ export const FadeIn = ({ children, delay = 0, direction = 'up', className = "" }
     <motion.div 
       initial="hidden" 
       whileInView="visible" 
-      viewport={{ once: true, margin: "-100px" }} 
+      viewport={{ once: true, margin: "-10px" }} 
       variants={variants} 
       className={className}
       style={{ willChange: "transform, opacity" }}
@@ -58,7 +58,7 @@ export const TitleReveal = ({ text, className = "", as: Element = "h2" }: { text
     <motion.span
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-150px" }}
+      viewport={{ once: true, margin: "-10px" }}
       variants={containerVariants}
       className={`${className} inline-flex flex-wrap gap-x-[0.23em] gap-y-[0.08em]`}
       style={{ willChange: "transform, opacity" }}
