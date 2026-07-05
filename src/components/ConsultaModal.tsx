@@ -34,7 +34,7 @@ export const ConsultaModal = ({
 
     try {
       // Send the appointment details to Formspree
-      const response = await fetch('https://formspree.io/f/xdardbyg', {
+      const response = await fetch('https://formspree.io/f/xdarbdyg', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

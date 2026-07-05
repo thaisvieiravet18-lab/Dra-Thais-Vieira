@@ -46,7 +46,7 @@ export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: ()
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://formspree.io/f/xdardbyg', {
+      const response = await fetch('https://formspree.io/f/xdarbdyg', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
