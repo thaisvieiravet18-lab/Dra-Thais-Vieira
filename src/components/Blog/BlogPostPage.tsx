@@ -176,7 +176,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
               </div>
               <div className="flex flex-col text-left">
                 <span className="text-sm font-extrabold text-stone-900">{article.author.name}</span>
-                <span className="text-xs font-semibold text-[#a338b9]">{article.author.role} • {article.author.crmv}</span>
+                <span className="text-xs font-semibold text-[#a338b9]">{article.author.role}</span>
               </div>
             </div>
 

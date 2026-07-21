@@ -21,7 +21,7 @@ export interface BlogArticle {
   author: {
     name: string;
     role: string;
-    crmv: string;
+    crmv?: string;
     avatar?: string;
   };
   summary: string;

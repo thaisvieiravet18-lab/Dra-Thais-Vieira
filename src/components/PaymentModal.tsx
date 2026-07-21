@@ -99,7 +99,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
               <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 flex items-center gap-2.5">
                 <ShieldCheck size={20} className="text-amber-700 shrink-0" />
                 <div className="text-[11px] text-amber-900 font-semibold leading-snug">
-                  Atendimento individualizado para cães e gatos sob cuidados da Dra. Thais Vieira (CRMV-SP 52.814).
+                  Atendimento individualizado para cães e gatos sob cuidados da Dra. Thais Vieira.
                 </div>
               </div>
 

@@ -165,7 +165,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({
                   </div>
                   <div className="flex flex-col text-left">
                     <span className="text-xs font-bold text-stone-900">{featuredArticle.author.name}</span>
-                    <span className="text-[10px] font-medium text-stone-500">{featuredArticle.author.crmv}</span>
+                    <span className="text-[10px] font-medium text-stone-500">{featuredArticle.author.role}</span>
                   </div>
                 </div>
 

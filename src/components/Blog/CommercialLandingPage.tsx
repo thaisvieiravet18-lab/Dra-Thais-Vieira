@@ -93,7 +93,7 @@ export const CommercialLandingPage: React.FC<CommercialLandingPageProps> = ({
             Garanta o melhor cuidado nutricional para seu cão ou gato
           </h3>
           <p className="text-stone-600 text-sm font-medium mb-6 max-w-xl mx-auto">
-            Atendimento humanizado com a Dra. Thais Vieira (CRMV-SP 52.814). Clique abaixo para solicitar o agendamento no WhatsApp.
+            Atendimento humanizado com a Dra. Thais Vieira. Clique abaixo para solicitar o agendamento no WhatsApp.
           </p>
           <button
             onClick={() => onOpenConsulta(landing.formatKey)}

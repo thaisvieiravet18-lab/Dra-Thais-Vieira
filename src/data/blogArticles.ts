@@ -98,7 +98,6 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     author: {
       name: 'Dra. Thais Vieira',
       role: 'Médica Veterinária Nutróloga',
-      crmv: 'CRMV-SP 52.814',
     },
     summary: 'Chegou o seu primeiro filhote em casa? Descubra como escolher a melhor ração para filhote, a frequência correta das refeições e por que o acompanhamento veterinário é indispensável nos primeiros meses.',
     image: 'https://images.pexels.com/photos/30201047/pexels-photo-30201047.jpeg',
@@ -215,7 +214,6 @@ Se você mora em outra cidade ou estado, também pode agendar uma [consulta nutr
     author: {
       name: 'Dra. Thais Vieira',
       role: 'Médica Veterinária Nutróloga',
-      crmv: 'CRMV-SP 52.814',
     },
     summary: 'Saiba o que é a Alimentação Natural (AN) cozida para cães, quais os benefícios para cães com alergia ou seletivos, e por que o cálculo individualizado e a suplementação são vitais.',
     image: 'https://bonapetti.com.br/wp-content/uploads/2021/04/BannerHome.jpg',
@@ -286,7 +284,6 @@ Antes de alterar a dieta do seu cão, agende uma [consulta nutricional pet onlin
     author: {
       name: 'Dra. Thais Vieira',
       role: 'Médica Veterinária Nutróloga',
-      crmv: 'CRMV-SP 52.814',
     },
     summary: 'Os gatos são carnívoros estritos com baixa sede natural. Descubra como a dieta úmida e a Alimentação Natural para gatos previnem doenças renais e urinárias.',
     image: 'https://images.pexels.com/photos/38151497/pexels-photo-38151497.jpeg',
@@ -349,7 +346,6 @@ Por esse motivo, toda mudança de dieta felina deve ser orientada com técnicas 
     author: {
       name: 'Dra. Thais Vieira',
       role: 'Médica Veterinária Nutróloga',
-      crmv: 'CRMV-SP 52.814',
     },
     summary: 'Rações terapêuticas (ou coadjuvantes) funcionam como parte do tratamento médico de cães e gatos com insuficiência renal, alergias, obesidade ou pancreatite.',
     image: 'https://images.pexels.com/photos/8434744/pexels-photo-8434744.jpeg',
@@ -403,7 +399,6 @@ Através de uma [consulta nutricional pet online](/nutricao-pet-online/), avalia
     author: {
       name: 'Dra. Thais Vieira',
       role: 'Médica Veterinária Nutróloga',
-      crmv: 'CRMV-SP 52.814',
     },
     summary: 'Aprenda a decifrar a lista de ingredientes da ração, identificar fontes nobres de proteína e escolher a melhor opção dentro do seu orçamento.',
     image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=1200&q=80',
@@ -457,7 +452,6 @@ Se precisar de ajuda para avaliar a ração ideal dentro do seu orçamento, agen
     author: {
       name: 'Dra. Thais Vieira',
       role: 'Médica Veterinária Nutróloga',
-      crmv: 'CRMV-SP 52.814',
     },
     summary: 'A teleorientação nutricional permite que tutores de todo o Brasil recebam suporte especializado para seus cães e gatos com comodidade e ciência.',
     image: 'https://images.pexels.com/photos/27087012/pexels-photo-27087012.jpeg',
