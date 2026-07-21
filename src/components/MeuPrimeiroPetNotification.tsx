@@ -119,7 +119,7 @@ export function MeuPrimeiroPetNotification() {
               </button>
               
               <p className="text-[10px] font-bold text-purple-200/80 tracking-widest uppercase font-sans text-center">
-                🎁 Plano de ração personalizado por R$119,90
+                🎁 Consulta e Plano Alimentar com a Dra. Thais
               </p>
             </div>
           </div>

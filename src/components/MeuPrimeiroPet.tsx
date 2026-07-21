@@ -116,20 +116,20 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
             <div className="flex flex-col items-center justify-center gap-4 mb-4">
               <span className="text-[10px] md:text-xs font-black tracking-widest uppercase text-stone-900 bg-amber-400 px-5 py-2.5 rounded-full inline-flex items-center gap-1.5 shadow-md">
                 <Sparkles size={12} className="fill-stone-900 animate-pulse" />
-                PLANO ALIMENTAR PERSONALIZADO
+                PLANO EXCLUSIVO DE RAÇÃO COMERCIAL
               </span>
             </div>
             
             <h2 className="text-4xl md:text-6xl font-black text-white font-display leading-[1.05] tracking-tight uppercase">
-              MEU PRIMEIRO PET
+              MEU PRIMEIRO PET - PLANO DE RAÇÃO
             </h2>
             
             <p className="text-amber-400 text-2xl md:text-4.5xl font-black tracking-tight font-display uppercase mt-3 drop-shadow-sm">
-              FIM DOS COPINHOS E DO OLHÔMETRO
+              CÁLCULO DE RAÇÃO SEM OLHÔMETRO E SEM COPINHO
             </p>
             
             <p className="text-stone-200 text-lg md:text-2xl font-bold max-w-3xl mx-auto mt-6 leading-snug font-sans">
-              Seu pet pode estar comendo mais ou menos do que precisa todos os dias e você nem percebeu ainda.
+              Ajuste exato da porção diária da ração do seu pet, escolha da melhor marca para o perfil dele e indicação de petiscos seguros.
             </p>
 
             {/* Perguntas super destacadas */}
@@ -362,29 +362,21 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
           
           <div className="space-y-3">
             <span className="text-xs text-emerald-400 font-sans font-black tracking-widest uppercase flex items-center justify-center gap-1.5">
-              <Lock size={12} className="animate-pulse" /> SISTEMA DE PAGAMENTO 100% SEGURO
+              <Sparkles size={12} className="animate-pulse" /> CONSULTA NUTRICIONAL PERSONALIZADA
             </span>
             <h3 className="text-2xl md:text-4xl font-black text-white font-display uppercase tracking-tight">
               ALIMENTE SEU PET DO JEITO CERTO HOJE
             </h3>
             <p className="text-stone-300 text-xs md:text-sm font-semibold max-w-xl mx-auto">
-              Por R$119,90, você recebe um plano alimentar simples, prático e personalizado para alimentar seu pet com mais segurança.
+              Preencha os dados do seu pet e agende sua consulta para receber orientações nutricionais personalizadas com a Dra. Thais.
             </p>
           </div>
 
           {/* Pricing Highlight */}
           <div className="space-y-2 py-2">
-            <span className="text-xs text-stone-400 font-sans font-medium tracking-wide block line-through">
-              De R$ 199,90 por apenas
-            </span>
-            <div className="text-5xl md:text-7xl font-black text-white font-display flex items-baseline justify-center gap-1">
-              <span className="text-2xl font-bold text-amber-400">R$</span>
-              <span className="text-amber-400">119</span>
-              <span className="text-3xl font-bold font-sans text-amber-400">,90</span>
-            </div>
             <div className="pt-2">
-              <span className="inline-block text-[10px] font-black tracking-widest text-[#ffd2ff] bg-white/10 py-1.5 px-4 rounded-full border border-white/10">
-                PAGAMENTO ÚNICO • SEM MENSALIDADE • PLANO ANALISADO INDIVIDUALMENTE
+              <span className="inline-block text-xs md:text-sm font-black tracking-wider text-amber-300 bg-white/10 py-2.5 px-6 rounded-full border border-amber-400/30">
+                CONSULTA MARCADA • ATENDIMENTO INDIVIDUALIZADO VIA WHATSAPP
               </span>
             </div>
           </div>
@@ -433,7 +425,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
               className="w-full sm:w-auto flex-1 py-5 px-8 bg-amber-400 hover:bg-amber-300 text-stone-950 font-black rounded-2xl text-xs sm:text-sm uppercase tracking-widest shadow-[0_15px_30px_rgba(251,191,36,0.35)] transition-all flex items-center justify-center gap-2 cursor-pointer border-none"
             >
               <Sparkles size={16} className="fill-stone-950 animate-pulse shrink-0" />
-              <span>QUERO O PLANO DO MEU PET</span>
+              <span>AGENDAR CONSULTA DO MEU PET</span>
             </motion.button>
 
             <motion.button 
@@ -475,9 +467,9 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
                 <div className="w-14 h-14 rounded-full bg-gradient-to-r from-amber-400 to-[#fb923c] text-stone-950 flex items-center justify-center text-lg font-black font-sans shadow-lg group-hover:scale-105 transition-transform">
                   1
                 </div>
-                <h4 className="text-lg font-bold text-white font-display uppercase tracking-wide">Você responde</h4>
+                <h4 className="text-lg font-bold text-white font-display uppercase tracking-wide">Chame no WhatsApp</h4>
                 <p className="text-stone-300 text-xs md:text-sm max-w-xs mx-auto leading-relaxed font-sans font-medium">
-                  Formulário estratégico inteligente de 5 minutos, mapeando detalhadamente os dados, temperamento e rotina do seu cão ou gato.
+                  A Dra. Thais enviará o questionário do pet diretamente no seu WhatsApp para você preencher com calma no seu tempo.
                 </p>
               </div>
 
@@ -486,9 +478,9 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
                 <div className="w-14 h-14 rounded-full bg-gradient-to-r from-amber-400 to-[#fb923c] text-stone-950 flex items-center justify-center text-lg font-black font-sans shadow-lg group-hover:scale-105 transition-transform">
                   2
                 </div>
-                <h4 className="text-lg font-bold text-white font-display uppercase tracking-wide">Eu analiso</h4>
+                <h4 className="text-lg font-bold text-white font-display uppercase tracking-wide">Cálculo & Análise</h4>
                 <p className="text-stone-300 text-xs md:text-sm max-w-xs mx-auto leading-relaxed font-sans font-medium">
-                  Avaliação biológica e nutricional feita por mim de forma minuciosa, equilibrando calorias, proteínas, água e condutas saudáveis.
+                  Análise nutricional veterinária focada na escolha da melhor ração, cálculo exato da porção diária em gramas e petiscos seguros.
                 </p>
               </div>
 
@@ -497,9 +489,9 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
                 <div className="w-14 h-14 rounded-full bg-gradient-to-r from-amber-400 to-[#fb923c] text-stone-950 flex items-center justify-center text-lg font-black font-sans shadow-lg group-hover:scale-105 transition-transform">
                   3
                 </div>
-                <h4 className="text-lg font-bold text-white font-display uppercase tracking-wide">Você recebe</h4>
+                <h4 className="text-lg font-bold text-white font-display uppercase tracking-wide">Pix & Entrega</h4>
                 <p className="text-stone-300 text-xs md:text-sm max-w-xs mx-auto leading-relaxed font-sans font-medium">
-                  Plano alimentar detalhado e estruturado em formato digital entregue diretamente no seu e-mail de cadastro.
+                  Pagamento prático via Pix diretamente pelo WhatsApp e recebimento do seu Plano de Ração completo em PDF no seu celular.
                 </p>
               </div>
 
@@ -524,10 +516,10 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
                 ENTREGA COMPLETA EM PDF E EMAIL
               </span>
               <h3 className="text-3xl md:text-5xl font-black text-white font-display uppercase tracking-tight mt-4 leading-[1.1]">
-                O QUE VOCÊ RECEBE NO SEU PLANO
+                O QUE VOCÊ RECEBE NO SEU PLANO DE RAÇÃO
               </h3>
               <p className="text-stone-300 text-sm md:text-base font-semibold mt-4 leading-relaxed max-w-2xl mx-auto">
-                Um guia completo e direto ao ponto que elimina todas as suas dúvidas sobre a rotina de alimentação do seu pet.
+                Um guia completo e individualizado focado em ração comercial, com cálculos exatos de gramagem e rotina alimentar para o seu pet.
               </p>
             </div>
 

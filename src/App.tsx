@@ -38,6 +38,12 @@ import { MeuPrimeiroPetNotification } from './components/MeuPrimeiroPetNotificat
 import { AbordagemDiagram } from './components/AbordagemDiagram';
 import { safeLocalStorage } from './lib/storage';
 
+// Blog components and data integration
+import { BlogIndexPage } from './components/Blog/BlogIndexPage';
+import { BlogPostPage } from './components/Blog/BlogPostPage';
+import { CommercialLandingPage } from './components/Blog/CommercialLandingPage';
+import { SERVICE_LANDINGS } from './data/blogArticles';
+
 // Generated customized images for the four core section cards
 import choiceFoodImg from './assets/images/escolha_racao_1781640644270.jpg';
 import idealQuantityImg from './assets/images/quantidade_ideal_1781640656721.jpg';
@@ -49,6 +55,24 @@ export default function App() {
   const [isConsultaOpen, setIsConsultaOpen] = useState(false);
   const [consultaFormat, setConsultaFormat] = useState<'online' | 'presencial' | 'insurance'>('online');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Client Router State
+  const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
+
+  React.useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsMobileMenuOpen(false);
+  };
 
   const openConsulta = (format: 'online' | 'presencial' | 'insurance') => {
     setConsultaFormat(format);
@@ -95,30 +119,9 @@ export default function App() {
   ];
 
   const [photos, setPhotos] = useState<Array<{ url: string; alt: string; className: string }>>(() => {
-    const saved = safeLocalStorage.getItem('hero_photos_v7');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          const hasRequestedPhoto = parsed.some(p => p.url && p.url.includes("photo-1678783133022-89e103910f76"));
-          if (!hasRequestedPhoto) {
-            const updated = [
-              {
-                url: "https://images.unsplash.com/photo-1678783133022-89e103910f76?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                alt: "Pet saudável sob acompanhamento clínico cuidadoso",
-                className: "object-center scale-100 hover:scale-[1.05]"
-              },
-              ...parsed
-            ];
-            safeLocalStorage.setItem('hero_photos_v7', JSON.stringify(updated));
-            return updated;
-          }
-          return parsed;
-        }
-      } catch (e) {
-        // Fallback
-      }
-    }
+    // Clear old hero photos cache if it contains pexels photos
+    const keysToClean = ['hero_photos_v7', 'hero_photos_v8', 'hero_photos_v9'];
+    keysToClean.forEach(k => safeLocalStorage.removeItem(k));
     return defaultHeroPhotos;
   });
 
@@ -244,20 +247,54 @@ export default function App() {
     }
   ];
 
+  const normalizedPath = currentPath.replace(/\/$/, '');
+  let activeView: 'home' | 'blog_index' | 'blog_post' | 'commercial_landing' = 'home';
+  let activeSlug = '';
+  let activeCommercialKey = '';
+
+  if (normalizedPath === '/blog') {
+    activeView = 'blog_index';
+  } else if (normalizedPath.startsWith('/blog/')) {
+    activeView = 'blog_post';
+    activeSlug = normalizedPath.replace('/blog/', '');
+  } else if (normalizedPath && SERVICE_LANDINGS[normalizedPath.replace('/', '')]) {
+    activeView = 'commercial_landing';
+    activeCommercialKey = normalizedPath.replace('/', '');
+  }
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 120; // combined fixed header + ticket offset (72px + 40px)
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+    if (activeView !== 'home') {
+      navigateTo('/');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const offset = 120; // combined fixed header + ticket offset (72px + 40px)
+          const bodyRect = document.body.getBoundingClientRect().top;
+          const elementRect = element.getBoundingClientRect().top;
+          const elementPosition = elementRect - bodyRect;
+          const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 120;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
     setIsMobileMenuOpen(false);
   };
@@ -274,17 +311,21 @@ export default function App() {
       {/* Solid Fixed Top Header Bar */}
       <nav className="fixed top-0 left-0 right-0 w-full h-[72px] z-50 bg-white/90 backdrop-blur-md border-b border-stone-100/80 shadow-[0_2px_15px_rgba(0,0,0,0.02)] flex items-center" id="main-nav">
         <div className="max-w-7xl mx-auto w-full flex justify-between items-center px-6 md:px-10">
-          <div className="flex items-center gap-2.5">
+          <button 
+            onClick={() => navigateTo('/')}
+            className="flex items-center gap-2.5 bg-transparent border-none cursor-pointer text-left p-0"
+          >
             <Heart className="text-[#a338b9] shrink-0" size={22} fill="currentColor" />
             <div className="flex flex-col text-left font-display">
               <span className="text-base font-bold tracking-tight leading-none text-[#111827]">Dra. Thais Vieira</span>
               <span className="text-[10px] font-semibold text-[#a338b9] uppercase tracking-wider mt-0.5">Nutrologia Veterinária</span>
             </div>
-          </div>
+          </button>
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-8">
-            <a href="#inicio" onClick={(e) => scrollToSection(e, 'inicio')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Início</a>
+            <a href="/" onClick={(e) => { e.preventDefault(); navigateTo('/'); }} className={`text-xs font-semibold uppercase tracking-wider hover:text-[#a338b9] transition-colors ${activeView === 'home' ? 'text-[#a338b9] font-bold' : 'text-[#374151]'}`}>Início</a>
+            <a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('/blog'); }} className={`text-xs font-semibold uppercase tracking-wider hover:text-[#a338b9] transition-colors ${activeView === 'blog_index' || activeView === 'blog_post' ? 'text-[#a338b9] font-bold underline' : 'text-[#374151]'}`}>Blog</a>
             <a href="#sobre" onClick={(e) => scrollToSection(e, 'sobre')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">A Veterinária</a>
             <a href="#meu-primeiro-pet" onClick={(e) => scrollToSection(e, 'meu-primeiro-pet')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Meu Primeiro Pet</a>
             <a href="#atendimento" onClick={(e) => scrollToSection(e, 'atendimento')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Formatos</a>
@@ -327,7 +368,8 @@ export default function App() {
               transition={{ duration: 0.2 }}
               className="absolute top-[112px] left-4 right-4 z-40 bg-white/95 backdrop-blur-md p-6 rounded-3xl border border-stone-200/60 shadow-xl flex flex-col gap-4 lg:hidden text-left"
             >
-              <a href="#inicio" onClick={(e) => scrollToSection(e, 'inicio')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Início</a>
+              <a href="/" onClick={(e) => { e.preventDefault(); navigateTo('/'); }} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Início</a>
+              <a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('/blog'); }} className="text-sm font-bold uppercase tracking-wider text-[#a338b9] py-2 border-b border-stone-100">Blog de Nutrição Pet</a>
               <a href="#sobre" onClick={(e) => scrollToSection(e, 'sobre')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">A Veterinária</a>
               <a href="#meu-primeiro-pet" onClick={(e) => scrollToSection(e, 'meu-primeiro-pet')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Meu Primeiro Pet</a>
               <a href="#atendimento" onClick={(e) => scrollToSection(e, 'atendimento')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Formatos</a>
@@ -419,6 +461,35 @@ export default function App() {
         </div>
       </div>
 
+      {/* View router switching */}
+      {activeView === 'blog_index' && (
+        <BlogIndexPage
+          onSelectArticle={(slug) => navigateTo(`/blog/${slug}`)}
+          onOpenConsulta={openConsulta}
+          onNavigateHome={() => navigateTo('/')}
+        />
+      )}
+
+      {activeView === 'blog_post' && (
+        <BlogPostPage
+          slug={activeSlug}
+          onNavigateBlog={() => navigateTo('/blog')}
+          onSelectArticle={(slug) => navigateTo(`/blog/${slug}`)}
+          onOpenConsulta={openConsulta}
+          onNavigateInternalLink={(url) => navigateTo(url)}
+        />
+      )}
+
+      {activeView === 'commercial_landing' && (
+        <CommercialLandingPage
+          slugKey={activeCommercialKey}
+          onNavigateBlog={() => navigateTo('/blog')}
+          onOpenConsulta={openConsulta}
+        />
+      )}
+
+      {activeView === 'home' && (
+        <>
       {/* SECTION 1: HERO */}
       <section 
         className="relative min-h-[540px] flex items-center pt-28 pb-20 sm:pt-32 sm:pb-24 px-4 md:px-8 bg-[#FAF2FF] overflow-hidden" 
@@ -1092,9 +1163,9 @@ export default function App() {
                   className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-15deg] pointer-events-none"
                 />
                 <span className="tracking-widest flex items-center gap-1.5 font-display text-sm">
-                  Quero o plano do meu pet <Sparkles size={14} className="fill-white" />
+                  Agendar Consulta do Meu Pet <Sparkles size={14} className="fill-white" />
                 </span>
-                <span className="text-[10px] font-bold text-amber-100 normal-case tracking-normal">Receber meu plano alimentar por R$ 119,90</span>
+                <span className="text-[10px] font-bold text-amber-100 normal-case tracking-normal">Atendimento e orientação via WhatsApp</span>
               </motion.button>
 
               <motion.button 
@@ -1115,13 +1186,15 @@ export default function App() {
           </FadeIn>
         </div>
       </section>
+      </>
+      )}
 
       {/* FOOTER (Elegant, classic clinic info) */}
       <footer className="py-20 px-4 md:px-8 border-t border-stone-200/50 bg-[#FAF7F1] text-stone-700 font-sans text-xs">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start text-left mb-16">
             
-            <div className="md:col-span-5 space-y-4">
+            <div className="md:col-span-4 space-y-4">
               <div className="flex items-center gap-2">
                 <Heart className="text-[#a338b9] shrink-0" size={16} fill="currentColor" />
                 <span className="text-sm font-bold text-[#111827] font-display">Dra. Thais Vieira</span>
@@ -1142,19 +1215,55 @@ export default function App() {
               </div>
             </div>
 
-            <div className="md:col-span-3 space-y-4">
-              <h4 className="text-[10px] font-bold tracking-widest uppercase text-[#111827]">Atendimento Geral</h4>
-              <ul className="space-y-2">
-                <li>Teleconsultas de Nutrologia Online</li>
-                <li>Consultório Presencial (São Paulo)</li>
-                <li>Adesão Digital Meu Primeiro Pet</li>
+            <div className="md:col-span-2 space-y-4">
+              <h4 className="text-[10px] font-bold tracking-widest uppercase text-[#111827]">Atendimento</h4>
+              <ul className="space-y-2 font-medium text-stone-600">
+                <li>Teleconsultas Online</li>
+                <li>Consultório Presencial</li>
+                <li>Adesão Primeiro Pet</li>
               </ul>
             </div>
 
-            <div className="md:col-span-4 space-y-4">
+            <div className="md:col-span-3 space-y-4">
+              <h4 className="text-[10px] font-bold tracking-widest uppercase text-[#111827]">Blog & Conteúdo SEO</h4>
+              <ul className="space-y-2 font-medium text-stone-600">
+                <li>
+                  <button onClick={() => navigateTo('/blog')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0 font-semibold text-xs">
+                    Blog de Nutrição Pet
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/nutricao-pet-online/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
+                    Consulta Nutricional Online
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/alimentacao-natural-para-caes/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
+                    Alimentação Natural Cães
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/alimentacao-natural-para-gatos/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
+                    Alimentação Natural Gatos
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/racao-terapeutica-para-caes-e-gatos/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
+                    Ração Terapêutica
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigateTo('/consulta-primeiro-pet/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
+                    Consulta Primeiro Pet
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div className="md:col-span-3 space-y-4">
               <h4 className="text-[10px] font-bold tracking-widest uppercase text-[#111827]">Legal & Ética</h4>
-              <p className="leading-relaxed">
-                As consultorias do Meu Primeiro Pet não representam diagnóstico médico final e não substituem o acompanhamento completo em consultório físico veterinário em casos de quadros patológicos agudos do animal.
+              <p className="leading-relaxed text-stone-600">
+                As consultorias do Meu Primeiro Pet e artigos do blog não representam diagnóstico médico final e não substituem o acompanhamento completo em consultório físico veterinário em casos de quadros patológicos do animal.
               </p>
             </div>
 

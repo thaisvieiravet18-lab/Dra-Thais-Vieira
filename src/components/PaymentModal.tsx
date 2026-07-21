@@ -1,458 +1,125 @@
 import React, { useState } from 'react';
-import { Mail, CheckCircle2, Sparkles, X, User, Phone, Clipboard, HeartIcon, ArrowRight, ExternalLink, Lock, ShieldCheck } from 'lucide-react';
+import { X, MessageSquare, Sparkles, CheckCircle2, ShieldCheck, Heart, ArrowRight, Utensils, Lock, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-export const PaymentModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
-  const [step, setStep] = useState<'form' | 'success'>('form');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Custom states matching all fields requested of the tutor and pet
-  const [formData, setFormData] = useState({
-    tutorName: '',
-    tutorEmail: '',
-    tutorPhone: '',
-    name: '',
-    type: 'dog',
-    age: '',
-    weight: '',
-    idealWeight: '',
-    activity: 'moderate',
-    currentFood: '',
-    health: '',
-    eatsWell: 'yes'
-  });
+interface PaymentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const validate = () => {
-    const tempErrors: Record<string, string> = {};
-    if (!formData.tutorName.trim()) tempErrors.tutorName = 'Nome do tutor é obrigatório';
-    if (!formData.tutorEmail.trim() || !/\S+@\S+\.\S+/.test(formData.tutorEmail)) {
-      tempErrors.tutorEmail = 'E-mail válido é obrigatório';
-    }
-    if (!formData.tutorPhone.trim()) tempErrors.tutorPhone = 'WhatsApp é obrigatório';
-    if (!formData.name.trim()) tempErrors.name = 'Nome de pet é obrigatório';
-    if (!formData.age.trim()) tempErrors.age = 'Idade é obrigatória';
-    if (!formData.weight.trim()) tempErrors.weight = 'Peso é obrigatório';
-    
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('https://formspree.io/f/xdarbdyg', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          nome: formData.tutorName,
-          email: formData.tutorEmail,
-          telefone: formData.tutorPhone,
-          nome_pet: formData.name,
-          tipo_pet: formData.type === 'dog' ? 'Cão 🐶' : 'Gato 🐱',
-          idade_pet: formData.age,
-          peso_atual: formData.weight,
-          peso_ideal: formData.idealWeight,
-          nivel_atividade: formData.activity,
-          apetite: formData.eatsWell,
-          racao_atual: formData.currentFood,
-          mensagem: formData.health
-        }),
-      });
-
-      if (response.ok) {
-        setStep('success');
-      } else {
-        const errData = await response.json().catch(() => ({}));
-        alert('Ocorreu um erro ao enviar suas respostas: ' + (errData.error || 'Por favor, tente novamente.'));
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Não foi possível enviar suas respostas por e-mail. Verifique sua conexão e tente novamente.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handlePayClick = () => {
-    window.open('https://mpago.la/1gqV9RW', '_blank');
-  };
-
-  const handleWhatsAppConfirm = () => {
-    const activityLabels: Record<string, string> = {
-      low: 'Sedentário (fica muito em casa)',
-      moderate: 'Moderado (passeia alguns dias)',
-      high: 'Ativo (corre e brinca bastante)'
-    };
-
-    const eatsWellLabels: Record<string, string> = {
-      yes: 'Sim, come bem',
-      picky: 'Seletivo (às vezes recusa)',
-      no: 'Ruim (recusa com frequência)'
-    };
-
-    const petTypeLabel = formData.type === 'cat' ? 'Gato 🐱' : 'Cão 🐶';
-
-    const text = `Olá Dra. Thais! Acabei de preencher o formulário estratégico do Meu Primeiro Pet.
-
-*DADOS DO TUTOR:*
-• *Nome:* ${formData.tutorName}
-• *E-mail:* ${formData.tutorEmail}
-• *WhatsApp:* ${formData.tutorPhone}
-
-*PERFIL DO PET:*
-• *Pet:* ${formData.name} (${petTypeLabel})
-• *Idade:* ${formData.age}
-• *Peso Atual:* ${formData.weight} kg ${formData.idealWeight ? `(Meta: ${formData.idealWeight} kg)` : ''}
-• *Atividade:* ${activityLabels[formData.activity] || formData.activity}
-• *Aceitação de Ração:* ${eatsWellLabels[formData.eatsWell] || formData.eatsWell}
-• *Ração Atual:* ${formData.currentFood || 'Não informado'}
-• *Queixas ou Histórico de Saúde:* ${formData.health || 'Nenhuma relevante'}`;
-
+export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
+  const handleWhatsAppRedirect = () => {
+    const text = `Olá Dra. Thais! Quero agendar o Plano de Ração Meu Primeiro Pet. Pode me enviar o questionário no WhatsApp e os dados Pix para darmos início?`;
     const encodedText = encodeURIComponent(text);
     window.open(`https://api.whatsapp.com/send?phone=5511916539562&text=${encodedText}`, '_blank');
-  };
-
-  const handleClose = () => {
-    setStep('form');
-    setFormData({
-      tutorName: '',
-      tutorEmail: '',
-      tutorPhone: '',
-      name: '',
-      type: 'dog',
-      age: '',
-      weight: '',
-      idealWeight: '',
-      activity: 'moderate',
-      currentFood: '',
-      health: '',
-      eatsWell: 'yes'
-    });
-    setErrors({});
-    onClose();
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && handleClose()}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={(e) => e.target === e.currentTarget && onClose()}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.93, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="modal-box text-stone-900 max-h-[90vh] overflow-y-auto w-full max-w-2xl bg-white rounded-3xl"
-            id="modal-cadastro-pet"
+            exit={{ opacity: 0, scale: 0.93, y: 20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden text-stone-900 border border-stone-100 max-h-[85vh] sm:max-h-[90vh] overflow-y-auto my-auto"
+            id="modal-agendamento-racao"
           >
-            <button 
-              className="modal-close p-2 bg-stone-100 hover:bg-stone-200 text-stone-600 hover:text-stone-900 rounded-full border-none transition-colors cursor-pointer absolute right-4 top-4 z-50"
-              onClick={handleClose}
-              id="btn-close-modal"
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-3.5 right-3.5 z-20 p-2 text-stone-400 hover:text-stone-800 bg-stone-100 hover:bg-stone-200 rounded-full transition-colors cursor-pointer border-none"
+              aria-label="Fechar janela"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
 
-            {step === 'form' ? (
-              <div className="modal-step leading-normal p-2 md:p-4">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3.5 bg-[#a338b9]/10 rounded-2xl text-[#a338b9]">
-                    <Clipboard size={24} />
+            {/* Header Banner */}
+            <div className="bg-gradient-to-r from-[#1a0033] via-[#3d0066] to-[#1a0033] text-white p-5 sm:p-6 relative overflow-hidden text-left">
+              <div className="absolute -right-10 -bottom-10 w-36 h-36 bg-[#a338b9]/30 rounded-full blur-2xl pointer-events-none" />
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400 text-stone-950 font-black text-[10px] uppercase tracking-wider mb-2.5 shadow-sm">
+                <Sparkles size={11} className="fill-stone-950" />
+                Plano de Ração Personalizado
+              </span>
+
+              <h2 className="text-xl sm:text-2xl font-black font-display tracking-tight text-white uppercase leading-tight">
+                Meu Primeiro Pet
+              </h2>
+
+              <p className="text-stone-200 text-xs font-medium mt-1.5 leading-relaxed">
+                Agendamento direto pelo WhatsApp • Focado exclusivamente em cálculo de ração, porções diárias e petiscos.
+              </p>
+            </div>
+
+            {/* Modal Body Content */}
+            <div className="p-5 sm:p-6 space-y-4 text-left">
+              
+              {/* How it works in 3 clear steps */}
+              <div className="space-y-2.5">
+                <h3 className="text-[11px] font-black uppercase tracking-wider text-[#a338b9] flex items-center gap-1.5">
+                  <Utensils size={15} /> Como Funciona o Agendamento
+                </h3>
+
+                <div className="grid grid-cols-1 gap-2.5 text-xs">
+                  <div className="flex items-start gap-2.5 p-3 bg-[#FAF8F5] rounded-2xl border border-stone-200/60">
+                    <div className="w-6 h-6 rounded-lg bg-[#a338b9] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                      1
+                    </div>
+                    <div>
+                      <span className="font-bold text-stone-900 block text-xs">Chame a Dra. Thais no WhatsApp</span>
+                      <span className="text-stone-600 font-medium leading-tight text-[11px] block mt-0.5">Clique no botão abaixo para iniciar a conversa no WhatsApp da veterinária.</span>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="!text-primary !mb-1 text-2xl font-display font-black tracking-tight" id="modal-titulo">
-                      Formulário Nutricional
-                    </h2>
-                    <p className="!mb-0 text-xs md:text-sm !text-stone-600 font-semibold shadow-inner-white" id="modal-subtitulo">
-                      Conte-me tudo sobre o seu pet para traçarmos um plano de porções preciso.
-                    </p>
-                    <p className="text-[10px] text-emerald-600 font-bold flex items-center gap-1 mt-1">
-                      <Lock size={10} /> Seus dados estão 100% seguros de acordo com a LGPD e sigilo médico-veterinário.
-                    </p>
+
+                  <div className="flex items-start gap-2.5 p-3 bg-[#FAF8F5] rounded-2xl border border-stone-200/60">
+                    <div className="w-6 h-6 rounded-lg bg-[#a338b9] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                      2
+                    </div>
+                    <div>
+                      <span className="font-bold text-stone-900 block text-xs">Questionário Nutricional no WhatsApp</span>
+                      <span className="text-stone-600 font-medium leading-tight text-[11px] block mt-0.5">A Dra. Thais enviará as perguntas sobre seu cão ou gato diretamente na conversa.</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-2.5 p-3 bg-[#FAF8F5] rounded-2xl border border-stone-200/60">
+                    <div className="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                      3
+                    </div>
+                    <div>
+                      <span className="font-bold text-stone-900 block text-xs">Pagamento via Pix & Entrega do Plano</span>
+                      <span className="text-stone-600 font-medium leading-tight text-[11px] block mt-0.5">Pagamento via Pix e envio do Plano de Ração completo com cálculo em gramas.</span>
+                    </div>
                   </div>
                 </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* TUTOR SECTION */}
-                  <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-stone-200/45 space-y-4">
-                    <h3 className="text-[#a338b9] font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-2">
-                      <User size={14} /> 1. Dados do Tutor
-                    </h3>
-                    
-                    <div>
-                      <label className="block text-stone-700 text-xs font-bold mb-1.5">Seu Nome Completo *</label>
-                      <input 
-                        required 
-                        type="text" 
-                        name="nome"
-                        className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.tutorName ? 'border-red-500' : 'border-stone-200'} bg-white text-sm outline-none`} 
-                        placeholder="Ex: Ana Maria Silva"
-                        value={formData.tutorName} 
-                        onChange={(e) => setFormData({...formData, tutorName: e.target.value})} 
-                      />
-                      {errors.tutorName && <p className="text-red-500 text-xs mt-1 font-medium">{errors.tutorName}</p>}
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Seu melhor E-mail *</label>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" size={16} />
-                          <input 
-                            required 
-                            type="email" 
-                            name="email"
-                            className={`modal-input w-full pl-10 pr-4 py-3 rounded-xl border ${errors.tutorEmail ? 'border-red-500' : 'border-stone-200'} bg-white text-sm outline-none`} 
-                            placeholder="Ex: tutor@email.com"
-                            value={formData.tutorEmail} 
-                            onChange={(e) => setFormData({...formData, tutorEmail: e.target.value})} 
-                          />
-                        </div>
-                        {errors.tutorEmail && <p className="text-red-500 text-xs mt-1 font-medium">{errors.tutorEmail}</p>}
-                      </div>
-
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Seu WhatsApp *</label>
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" size={16} />
-                          <input 
-                            required 
-                            type="tel" 
-                            name="telefone"
-                            className={`modal-input w-full pl-10 pr-4 py-3 rounded-xl border ${errors.tutorPhone ? 'border-red-500' : 'border-stone-200'} bg-white text-sm outline-none`} 
-                            placeholder="Ex: (11) 99999-9999"
-                            value={formData.tutorPhone} 
-                            onChange={(e) => setFormData({...formData, tutorPhone: e.target.value})} 
-                          />
-                        </div>
-                        {errors.tutorPhone && <p className="text-red-500 text-xs mt-1 font-medium">{errors.tutorPhone}</p>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* PET SECTION */}
-                  <div className="bg-[#FAF8F5] p-5 rounded-2xl border border-stone-200/45 space-y-4">
-                    <h3 className="text-[#a338b9] font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-2 mb-2">
-                      <HeartIcon size={14} className="fill-[#a338b9]/20" /> 2. Perfil do Pet
-                    </h3>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Nome do Pet *</label>
-                        <input 
-                          required 
-                          type="text" 
-                          name="nome_pet"
-                          className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.name ? 'border-red-500' : 'border-stone-200'} bg-white text-sm`} 
-                          placeholder="Ex: Bob, Mel, Frida..."
-                          value={formData.name} 
-                          onChange={(e) => setFormData({...formData, name: e.target.value})} 
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Espécie *</label>
-                        <select 
-                          name="tipo_pet"
-                          className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm cursor-pointer" 
-                          value={formData.type}
-                          onChange={(e) => setFormData({...formData, type: e.target.value})}
-                        >
-                          <option value="dog">Cão 🐶</option>
-                          <option value="cat">Gato 🐱</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Idade do Pet *</label>
-                        <input 
-                          required 
-                          type="text" 
-                          name="idade_pet"
-                          className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.age ? 'border-red-500' : 'border-stone-200'} bg-white text-sm`} 
-                          placeholder="Ex: 2 anos / 8 meses"
-                          value={formData.age} 
-                          onChange={(e) => setFormData({...formData, age: e.target.value})} 
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Peso Atual (kg) *</label>
-                        <input 
-                          required 
-                          type="text" 
-                          name="peso_atual"
-                          className={`modal-input w-full px-4 py-3 rounded-xl border ${errors.weight ? 'border-red-500' : 'border-stone-200'} bg-white text-sm`} 
-                          placeholder="Ex: 8.5 ou 15"
-                          value={formData.weight} 
-                          onChange={(e) => setFormData({...formData, weight: e.target.value})} 
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Peso Ideal / Meta se souber (kg)</label>
-                        <input 
-                          type="text" 
-                          name="peso_ideal"
-                          className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm" 
-                          placeholder="Ex: 7.0 (Opcional)"
-                          value={formData.idealWeight} 
-                          onChange={(e) => setFormData({...formData, idealWeight: e.target.value})} 
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-stone-700 text-xs font-bold mb-1.5">Nível de Atividade Diária</label>
-                      <select 
-                        name="nivel_atividade"
-                        className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm cursor-pointer" 
-                        value={formData.activity}
-                        onChange={(e) => setFormData({...formData, activity: e.target.value})}
-                      >
-                        <option value="low">Sedentário — fica focado em casa e dorme muito</option>
-                        <option value="moderate">Moderado — passeios regulares de vez em quando</option>
-                        <option value="high">Ativo — corre, brinca intensamente todos os dias</option>
-                      </select>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Gosta de comer a ração?</label>
-                        <select 
-                          name="apetite"
-                          className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm cursor-pointer" 
-                          value={formData.eatsWell}
-                          onChange={(e) => setFormData({...formData, eatsWell: e.target.value})}
-                        >
-                          <option value="yes">Sim, come perfeitamente</option>
-                          <option value="picky">Seletivo - enrola bastante para comer</option>
-                          <option value="no">Muito ruim - recusa direto a porção</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-stone-700 text-xs font-bold mb-1.5">Ração Atual (Marca/Linha)</label>
-                        <input 
-                          type="text" 
-                          name="racao_atual"
-                          className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm" 
-                          placeholder="Ex: Premier Adultos Seleção Natural"
-                          value={formData.currentFood} 
-                          onChange={(e) => setFormData({...formData, currentFood: e.target.value})} 
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-stone-700 text-xs font-bold mb-1.5">Tem alguma alergia, doença crônica ou queixa de saúde?</label>
-                      <textarea 
-                        rows={3}
-                        name="mensagem"
-                        className="modal-input w-full px-4 py-3 rounded-xl border border-stone-200 bg-white text-sm outline-none" 
-                        placeholder="Ex: Alergia a frango, problema renal crônico nascente, gastrite, nenhuma reatividade..."
-                        value={formData.health} 
-                        onChange={(e) => setFormData({...formData, health: e.target.value})} 
-                      />
-                    </div>
-                  </div>
-
-                  <button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="modal-btn w-full bg-[#a338b9] hover:bg-[#8e2ea2] text-white py-4 px-6 rounded-2xl flex items-center justify-center gap-2 font-bold cursor-pointer transition-all duration-300 transform active:scale-[0.98] border-none shadow-[0_10px_25px_rgba(163,56,185,0.25)]"
-                    id="btn-submit-nutri"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        <span>Registrando respostas do pet...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Salvar Diagnostic e Ir para o Pagamento</span>
-                        <ArrowRight size={18} />
-                      </>
-                    )}
-                  </button>
-                </form>
               </div>
-            ) : (
-              /* SUCCESS & PROMPT MERCADO PAGO PAYMENT STEP */
-              <div className="modal-step leading-relaxed text-center py-6 px-4">
-                <div className="w-20 h-20 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm animate-bounce">
-                  <CheckCircle2 size={40} />
+
+              {/* Badges / Guarantees */}
+              <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 flex items-center gap-2.5">
+                <ShieldCheck size={20} className="text-amber-700 shrink-0" />
+                <div className="text-[11px] text-amber-900 font-semibold leading-snug">
+                  Atendimento individualizado para cães e gatos sob cuidados da Dra. Thais Vieira (CRMV-SP 52.814).
                 </div>
-                
-                <h2 className="!text-3xl text-stone-900 mb-2 font-display font-black tracking-tight leading-tight">
-                  Cadastro Salvo! 🎉
-                </h2>
-                <p className="text-[#a338b9] font-bold text-sm mb-6 flex items-center justify-center gap-1.5">
-                  <Sparkles size={16} /> Respostas enviadas por e-mail com sucesso!
+              </div>
+
+              {/* Action Button */}
+              <div className="space-y-2 pt-1">
+                <button
+                  onClick={handleWhatsAppRedirect}
+                  className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs sm:text-sm py-3.5 px-5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer border-none uppercase tracking-wider"
+                >
+                  <MessageSquare size={18} fill="currentColor" />
+                  <span>Agendar Plano de Ração no WhatsApp</span>
+                </button>
+
+                <p className="text-[10px] text-center text-stone-500 font-medium flex items-center justify-center gap-1">
+                  <Lock size={11} className="text-stone-400" />
+                  Atendimento direto via WhatsApp • Chave Pix enviada no chat
                 </p>
-
-                <div className="bg-[#FAF8F5] border border-[#ebdcf2]/50 p-6 rounded-2xl text-left max-w-lg mx-auto mb-8">
-                  <h4 className="text-stone-800 font-bold mb-2 text-base flex items-center gap-1.5">
-                    <ShieldCheck className="text-[#a338b9]" size={18} /> Próximos passos para receber seu plano:
-                  </h4>
-                  <ul className="text-stone-600 text-xs md:text-sm space-y-2 pl-4 list-decimal font-medium">
-                    <li>As informações do(a) <strong>{formData.name}</strong> já foram recebidas por e-mail pela Dra. Thais.</li>
-                    <li>Para ativar a montagem personalizada das porções e orientações, conclua o pagamento de apenas <strong>R$ 119,90</strong> no link do Mercado Pago.</li>
-                    <li>Após realizar o pagamento, a Dra. Thais fará a análise individual e enviará o seu plano alimentar personalizado diretamente por e-mail em até 24h úteis!</li>
-                  </ul>
-                </div>
-
-                {/* Trust and safety assurance box */}
-                <div className="border border-emerald-100 bg-emerald-50/50 p-4 rounded-xl text-left max-w-lg mx-auto mb-6 flex items-start gap-3">
-                  <div className="p-2 bg-emerald-500/10 text-emerald-600 rounded-lg shrink-0">
-                    <Lock size={18} />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-stone-800 text-xs font-black">Pagamento 100% Criptografado e Seguro</p>
-                    <p className="text-stone-600 text-[11px] leading-relaxed">
-                      Sua transação é processada pelo <strong>Mercado Pago</strong> com criptografia de ponta a ponta. Nós não armazenamos os dados do seu cartão.
-                    </p>
-                  </div>
-                </div>
-
-                {/* BIG ATTENTION GRABBING MERCADO PAGO CALL-TO-ACTION BUTTON */}
-                <div className="space-y-4 max-w-md mx-auto">
-                  <button
-                    onClick={handlePayClick}
-                    className="w-full bg-[#009EE3] hover:bg-[#0087c2] text-white py-4 px-6 rounded-2xl flex items-center justify-center gap-2.5 font-bold cursor-pointer transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] border-none shadow-[0_12px_30px_rgba(0,158,227,0.3)] group select-none"
-                    id="btn-mercadopago-externo"
-                  >
-                    <Lock size={16} className="text-white shrink-0" />
-                    <span>Pagar R$ 119,90 no Mercado Pago</span>
-                    <ExternalLink size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </button>
-
-                  <button
-                    onClick={handleWhatsAppConfirm}
-                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3.5 px-6 rounded-2xl flex items-center justify-center gap-2 font-bold cursor-pointer transition-colors duration-300 border-none shadow-sm text-sm"
-                    id="btn-whatsapp-comprovante"
-                  >
-                    <span>Falar com Dra. Thais no WhatsApp</span>
-                  </button>
-
-                  <button 
-                    onClick={handleClose} 
-                    className="text-stone-400 hover:text-stone-600 font-semibold text-xs border-none bg-transparent cursor-pointer hover:underline"
-                  >
-                    Fechar e Pagar Mais Tarde
-                  </button>
-                </div>
               </div>
-            )}
+
+            </div>
           </motion.div>
         </div>
       )}
