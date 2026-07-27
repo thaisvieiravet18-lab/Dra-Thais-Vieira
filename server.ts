@@ -8,7 +8,7 @@ import { MercadoPagoConfig, Payment } from 'mercadopago';
 import { renderPageHtml } from "./src/server/seoRenderer";
 import { BLOG_ARTICLES, SERVICE_LANDINGS } from "./src/data/blogArticles";
 
-const PORT = 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 const DOMAIN = 'https://nutricaoveterinariathais.com.br';
 
 async function startServer() {
