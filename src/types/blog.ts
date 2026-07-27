@@ -9,6 +9,7 @@ export type BlogCategory =
 export interface BlogArticle {
   id: string;
   slug: string;
+  aliases?: string[];
   title: string;
   metaTitle: string;
   metaDescription: string;

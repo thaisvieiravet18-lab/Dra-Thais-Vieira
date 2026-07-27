@@ -86,9 +86,10 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     id: 'qual-racao-dar-para-filhote',
     slug: 'qual-racao-dar-para-filhote',
+    aliases: ['qual-racao-dar-para-filhote-de-cachorro', 'racao-para-filhote'],
     title: 'Qual ração dar para filhote? Guia para quem tem o primeiro pet',
     metaTitle: 'Qual ração dar para filhote? Guia Completo Primeiro Pet | Dra. Thais Vieira',
-    metaDescription: 'Dúvidas sobre qual ração dar para filhote de cão ou gato? Descubra o que observar no rótulo, frequências das refeições e como garantir um crescimento saudável.',
+    metaDescription: 'Saiba qual ração dar para filhote, como evitar erros comuns no primeiro pet e quando buscar orientação nutricional veterinária.',
     mainKeyword: 'qual ração dar para filhote',
     secondaryKeywords: ['melhor ração para filhote', 'primeiro pet', 'ração para cachorro filhote', 'ração para gato filhote'],
     category: 'Filhotes e primeiro pet',
@@ -202,6 +203,7 @@ Se você mora em outra cidade ou estado, também pode agendar uma [consulta nutr
   {
     id: 'alimentacao-natural-para-caes-guia',
     slug: 'alimentacao-natural-para-caes-guia',
+    aliases: ['alimentacao-natural-para-cachorro', 'alimentacao-natural-para-caes'],
     title: 'Alimentação Natural para Cães: O Que É, Vantagens e Cuidados Necessários',
     metaTitle: 'Alimentação Natural para Cães: Guia Completo | Dra. Thais Vieira',
     metaDescription: 'Quer migrar para Alimentação Natural para cães com segurança? Saiba como funciona a dieta caseira cozida balanceada, suplementos obrigatórios e cuidados veterinários.',
@@ -272,6 +274,7 @@ Antes de alterar a dieta do seu cão, agende uma [consulta nutricional pet onlin
   {
     id: 'alimentacao-natural-e-umida-para-gatos',
     slug: 'alimentacao-natural-e-umida-para-gatos',
+    aliases: ['alimentacao-natural-para-gatos-e-segura', 'alimentacao-natural-para-gatos'],
     title: 'Alimentação Natural e Úmida para Gatos: Como Garantir Hidratação e Saúde Renal',
     metaTitle: 'Alimentação Natural e Úmida para Gatos | Dra. Thais Vieira',
     metaDescription: 'Descubra como a alimentação natural e as rações úmidas protegem a saúde renal e urinária dos gatos. Entenda as necessidades carnívoras felinas.',
@@ -334,6 +337,7 @@ Por esse motivo, toda mudança de dieta felina deve ser orientada com técnicas 
   {
     id: 'racao-terapeutica-para-caes-e-gatos-guia',
     slug: 'racao-terapeutica-para-caes-e-gatos-guia',
+    aliases: ['racao-terapeutica-para-caes-e-gatos'],
     title: 'Ração Terapêutica para Cães e Gatos: Quando Usar e Por Que Precisa de Orientação Veterinária',
     metaTitle: 'Ração Terapêutica para Cães e Gatos | Dra. Thais Vieira',
     metaDescription: 'O que são rações coadjuvantes ou terapêuticas? Entenda quando são indicadas para problemas renais, alérgicos, gastrointestinais e obesidade.',

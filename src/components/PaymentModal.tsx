@@ -9,7 +9,7 @@ interface PaymentModalProps {
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
   const handleWhatsAppRedirect = () => {
-    const text = `Olá Dra. Thais! Quero agendar o Plano de Ração Meu Primeiro Pet. Pode me enviar o questionário no WhatsApp e os dados Pix para darmos início?`;
+    const text = `Olá Dra. Thais! Quero agendar a Consulta e Plano de Orientação de Ração Comercial. Pode me enviar o questionário no WhatsApp e os dados Pix para darmos início?`;
     const encodedText = encodeURIComponent(text);
     window.open(`https://api.whatsapp.com/send?phone=5511916539562&text=${encodedText}`, '_blank');
   };
@@ -45,7 +45,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
               </span>
 
               <h2 className="text-xl sm:text-2xl font-black font-display tracking-tight text-white uppercase leading-tight">
-                Meu Primeiro Pet
+                Orientação de Ração
               </h2>
 
               <p className="text-stone-200 text-xs font-medium mt-1.5 leading-relaxed">

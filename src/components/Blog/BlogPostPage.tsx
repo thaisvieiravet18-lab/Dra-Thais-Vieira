@@ -19,7 +19,10 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
   onOpenConsulta,
   onNavigateInternalLink,
 }) => {
-  const article = BLOG_ARTICLES.find((a) => a.slug === slug) || BLOG_ARTICLES[0];
+  const cleanSlug = slug.replace(/\/$/, '');
+  const article = BLOG_ARTICLES.find(
+    (a) => a.slug === cleanSlug || (a.aliases && a.aliases.includes(cleanSlug))
+  ) || BLOG_ARTICLES[0];
 
   // Update Page SEO Document Title and Meta Description
   useEffect(() => {
@@ -268,10 +271,14 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedArticles.map((rel) => (
-              <div
+              <a
                 key={rel.id}
-                onClick={() => onSelectArticle(rel.slug)}
-                className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
+                href={`/blog/${rel.slug}/`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSelectArticle(rel.slug);
+                }}
+                className="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer flex flex-col justify-between no-underline"
               >
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#a338b9] bg-[#f4e2f7] px-2.5 py-1 rounded-full inline-block mb-3">
@@ -285,9 +292,9 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
                   </p>
                 </div>
                 <span className="text-[#a338b9] font-bold text-xs mt-4 flex items-center gap-1">
-                  Ler agora <ArrowRight size={12} />
+                  Ler Artigo <ArrowRight size={12} />
                 </span>
-              </div>
+              </a>
             ))}
           </div>
         </section>

@@ -9,7 +9,7 @@ export const ConsultaModal = ({
 }: { 
   isOpen: boolean, 
   onClose: () => void,
-  initialFormat?: 'online' | 'presencial' | 'insurance'
+  initialFormat?: 'online' | 'presencial' | 'insurance' | 'orientacao'
 }) => {
   const [tutorName, setTutorName] = useState('');
   const [petName, setPetName] = useState('');
@@ -17,7 +17,7 @@ export const ConsultaModal = ({
   const [breed, setBreed] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [reason, setReason] = useState('preventive');
-  const [format, setFormat] = useState<'online' | 'presencial' | 'insurance'>('online');
+  const [format, setFormat] = useState<'online' | 'presencial' | 'insurance' | 'orientacao'>('online');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -75,12 +75,13 @@ export const ConsultaModal = ({
     };
 
     const formatLabels: { [key: string]: string } = {
+      orientacao: '🥣 Orientação de Ração (Prática & Online)',
       online: '💻 Online (Teleconsulta)',
       presencial: '🏥 Presencial (São Paulo)',
       insurance: '📄 Convênio (Plano de Saúde / Reembolso)'
     };
     
-    const text = `Olá Dra. Thais! Solicitei um agendamento de consulta nutricional do *Meu Primeiro Pet* através do site.
+    const text = `Olá Dra. Thais! Solicitei um agendamento de consulta nutricional através do site.
 
 *DADOS DO AGENDAMENTO:*
 • *Formato:* ${formatLabels[format] || format}
@@ -109,12 +110,13 @@ export const ConsultaModal = ({
     };
 
     const formatLabels: { [key: string]: string } = {
+      orientacao: '🥣 Orientação de Ração (Prática & Online)',
       online: '💻 Online (Teleconsulta)',
       presencial: '🏥 Presencial (São Paulo)',
       insurance: '📄 Convênio (Plano de Saúde / Reembolso)'
     };
     
-    const text = `Olá Dra. Thais! Solicitei um agendamento de consulta nutricional do *Meu Primeiro Pet* através do site.
+    const text = `Olá Dra. Thais! Solicitei um agendamento de consulta nutricional através do site.
 
 *DADOS DO AGENDAMENTO:*
 • *Formato:* ${formatLabels[format] || format}
@@ -166,6 +168,7 @@ export const ConsultaModal = ({
                       <label className="block text-xs font-bold text-stone-600 mb-1">Formato de Atendimento</label>
                       <select name="formato" className="modal-input !mb-0 bg-stone-50 text-stone-800 font-medium" value={format}
                         onChange={(e) => setFormat(e.target.value as any)}>
+                        <option value="orientacao">Orientação de Ração (Prática & Online)</option>
                         <option value="online">Online (Teleconsulta para todo o Brasil)</option>
                         <option value="presencial">Presencial (Consultório em São Paulo - SP)</option>
                         <option value="insurance">Convênio (Plano de saúde / Reembolso)</option>

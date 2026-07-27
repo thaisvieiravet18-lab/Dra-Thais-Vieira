@@ -26,8 +26,13 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({
     if (metaDescription) {
       metaDescription.setAttribute(
         'content',
-        'Artigos sobre alimentação natural, escolha de ração, nutrição para cães e gatos, primeiro pet e orientação nutricional veterinária.'
+        'Artigos sobre nutrição pet, escolha de ração, alimentação natural para cães e gatos, primeiro pet e orientação nutricional veterinária.'
       );
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Artigos sobre nutrição pet, escolha de ração, alimentação natural para cães e gatos, primeiro pet e orientação nutricional veterinária.';
+      document.head.appendChild(meta);
     }
   }, []);
 
@@ -169,13 +174,17 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({
                   </div>
                 </div>
 
-                <button
-                  onClick={() => onSelectArticle(featuredArticle.slug)}
-                  className="bg-[#a338b9] hover:bg-[#8d2a83] text-white px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer border-none shadow-md hover:scale-[1.02]"
+                <a
+                  href={`/blog/${featuredArticle.slug}/`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectArticle(featuredArticle.slug);
+                  }}
+                  className="bg-[#a338b9] hover:bg-[#8d2a83] text-white px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer border-none shadow-md hover:scale-[1.02] no-underline"
                 >
                   <span>Ler Artigo Completo</span>
                   <ArrowRight size={16} />
-                </button>
+                </a>
               </div>
             </div>
           </motion.div>
@@ -249,13 +258,17 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({
 
                 <div className="p-6 pt-0 border-t border-stone-100/60 mt-4 flex items-center justify-between">
                   <span className="text-[11px] font-bold text-stone-500">{article.author.name}</span>
-                  <button
-                    onClick={() => onSelectArticle(article.slug)}
-                    className="text-[#a338b9] font-bold text-xs flex items-center gap-1 group-hover:translate-x-1 transition-transform cursor-pointer border-none bg-transparent"
+                  <a
+                    href={`/blog/${article.slug}/`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectArticle(article.slug);
+                    }}
+                    className="text-[#a338b9] font-bold text-xs flex items-center gap-1 group-hover:translate-x-1 transition-transform cursor-pointer no-underline"
                   >
                     <span>Ler Artigo</span>
                     <ArrowRight size={14} />
-                  </button>
+                  </a>
                 </div>
               </motion.article>
             ))}

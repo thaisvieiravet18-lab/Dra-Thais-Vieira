@@ -27,7 +27,7 @@ export function MeuPrimeiroPetNotification() {
   const handleAction = () => {
     setIsOpen(false);
     safeSessionStorage.setItem('dismissed_primeiro_pet_notif', 'true');
-    const element = document.getElementById('meu-primeiro-pet');
+    const element = document.getElementById('orientacao-racao');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -44,7 +44,7 @@ export function MeuPrimeiroPetNotification() {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{ willChange: "transform, opacity" }}
             className="w-full rounded-[2.2rem] overflow-hidden shadow-2xl border border-white/10 pointer-events-auto relative"
-            id="notificacao-primeiro-pet"
+            id="notificacao-orientacao-racao"
           >
           {/* Background Image Container */}
           <div className="absolute inset-0 -z-10 w-full h-full">
@@ -75,19 +75,19 @@ export function MeuPrimeiroPetNotification() {
             <div className="space-y-1 text-center md:text-left">
               <span className="text-[10px] font-black tracking-[0.2em] text-amber-300 bg-amber-400/10 border border-amber-400/20 px-3.5 py-1 rounded-full inline-flex items-center gap-1.5 uppercase font-sans">
                 <Sparkles size={10} className="fill-amber-300 text-amber-300 animate-pulse" />
-                MEU PRIMEIRO PET
+                CONSULTA ONLINE & RAÇÃO
               </span>
               <h4 className="text-lg md:text-xl font-black font-display text-white tracking-tight uppercase pt-2">
-                Fim dos copinhos e do olhômetro
+                Qual a melhor ração na quantidade certa?
               </h4>
             </div>
 
             {/* Structured interactive checklist queries with highlighted yellow/orange accents */}
             <div className="space-y-2.5 pt-1">
               {[
-                "Adotou um pet recentemente?",
-                "É pai ou mãe de pet de primeira viagem?",
-                "Ainda mede a ração no copinho ou no olho?"
+                "Dúvidas sobre qual a melhor marca de ração?",
+                "Precisa do cálculo exato da porção diária?",
+                "Quer saber quais petiscos são seguros?"
               ].map((text, idx) => (
                 <div key={idx} className="flex items-center justify-center md:justify-start gap-2.5 text-white/90">
                   <span className="text-amber-400 shrink-0 text-sm">✦</span>

@@ -53,7 +53,7 @@ import dailyHealthImg from './assets/images/saude_diaria_1781640678043.jpg';
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConsultaOpen, setIsConsultaOpen] = useState(false);
-  const [consultaFormat, setConsultaFormat] = useState<'online' | 'presencial' | 'insurance'>('online');
+  const [consultaFormat, setConsultaFormat] = useState<'online' | 'presencial' | 'insurance' | 'orientacao'>('online');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Client Router State
@@ -74,7 +74,7 @@ export default function App() {
     setIsMobileMenuOpen(false);
   };
 
-  const openConsulta = (format: 'online' | 'presencial' | 'insurance') => {
+  const openConsulta = (format: 'online' | 'presencial' | 'insurance' | 'orientacao') => {
     setConsultaFormat(format);
     setIsConsultaOpen(true);
   };
@@ -262,6 +262,19 @@ export default function App() {
     activeCommercialKey = normalizedPath.replace('/', '');
   }
 
+  React.useEffect(() => {
+    if (activeView === 'home') {
+      document.title = 'Dra. Thais Vieira | Nutrologia Veterinária para Cães e Gatos';
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute(
+          'content',
+          'Nutrição veterinária para cães e gatos com orientação de ração, alimentação natural, dieta mista e consulta nutricional online ou presencial em São Paulo.'
+        );
+      }
+    }
+  }, [activeView]);
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     if (activeView !== 'home') {
@@ -327,7 +340,7 @@ export default function App() {
             <a href="/" onClick={(e) => { e.preventDefault(); navigateTo('/'); }} className={`text-xs font-semibold uppercase tracking-wider hover:text-[#a338b9] transition-colors ${activeView === 'home' ? 'text-[#a338b9] font-bold' : 'text-[#374151]'}`}>Início</a>
             <a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('/blog'); }} className={`text-xs font-semibold uppercase tracking-wider hover:text-[#a338b9] transition-colors ${activeView === 'blog_index' || activeView === 'blog_post' ? 'text-[#a338b9] font-bold underline' : 'text-[#374151]'}`}>Blog</a>
             <a href="#sobre" onClick={(e) => scrollToSection(e, 'sobre')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">A Veterinária</a>
-            <a href="#meu-primeiro-pet" onClick={(e) => scrollToSection(e, 'meu-primeiro-pet')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Meu Primeiro Pet</a>
+            <a href="#orientacao-racao" onClick={(e) => scrollToSection(e, 'orientacao-racao')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Orientação de Ração</a>
             <a href="#atendimento" onClick={(e) => scrollToSection(e, 'atendimento')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Formatos</a>
             <a href="#depoimentos" onClick={(e) => scrollToSection(e, 'depoimentos')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors">Depoimentos</a>
             <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-xs font-semibold uppercase tracking-wider text-[#374151] hover:text-[#a338b9] transition-colors font-sans">FAQ</a>
@@ -371,7 +384,7 @@ export default function App() {
               <a href="/" onClick={(e) => { e.preventDefault(); navigateTo('/'); }} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Início</a>
               <a href="/blog" onClick={(e) => { e.preventDefault(); navigateTo('/blog'); }} className="text-sm font-bold uppercase tracking-wider text-[#a338b9] py-2 border-b border-stone-100">Blog de Nutrição Pet</a>
               <a href="#sobre" onClick={(e) => scrollToSection(e, 'sobre')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">A Veterinária</a>
-              <a href="#meu-primeiro-pet" onClick={(e) => scrollToSection(e, 'meu-primeiro-pet')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Meu Primeiro Pet</a>
+              <a href="#orientacao-racao" onClick={(e) => scrollToSection(e, 'orientacao-racao')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Orientação de Ração</a>
               <a href="#atendimento" onClick={(e) => scrollToSection(e, 'atendimento')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Formatos</a>
               <a href="#depoimentos" onClick={(e) => scrollToSection(e, 'depoimentos')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2 border-b border-stone-100">Depoimentos</a>
               <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-sm font-bold uppercase tracking-wider text-[#111827] py-2">FAQ</a>
@@ -616,13 +629,13 @@ export default function App() {
                 </motion.button>
 
                 <motion.a 
-                  href="#meu-primeiro-pet" 
-                  onClick={(e) => scrollToSection(e, 'meu-primeiro-pet')}
+                  href="#orientacao-racao" 
+                  onClick={(e) => scrollToSection(e, 'orientacao-racao')}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   className="h-15 w-full sm:w-auto px-10 rounded-full border-2 border-[#a338b9]/30 hover:border-[#a338b9] bg-white hover:bg-[#a338b9]/3 text-[#111827] hover:text-[#a338b9] transition-all duration-300 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2.5 shadow-sm hover:shadow-[0_10px_25px_rgba(163,56,185,0.08)] cursor-pointer"
                 >
-                  <span>Conhecer Meu Primeiro Pet</span>
+                  <span>Orientação de Ração</span>
                   <ArrowDown size={14} className="animate-bounce shrink-0" />
                 </motion.a>
               </div>
@@ -862,24 +875,66 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col items-center relative z-10">
           
           <div className="text-center mb-16 max-w-3xl mx-auto flex flex-col items-center space-y-3">
-            <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.25em] uppercase font-sans">Sessões Individuais</span>
+            <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.25em] uppercase font-sans">Opções de Atendimento</span>
             <h2 className="text-3xl md:text-5xl font-semibold text-[#111827] font-display uppercase tracking-tight text-center mt-1">
-              Quer um acompanhamento clínico exclusivo?
+              Como Funciona o Acompanhamento?
             </h2>
             <p className="text-stone-700 font-semibold text-sm md:text-base leading-relaxed font-sans max-w-2xl text-center mt-2 mx-auto">
-              Se o seu pet possui alguma patologia diagnosticada (doença renal, obesidade severa, alergia grave ou diabetes) ou você prefere uma consulta tête-à-tête comigo, escolha um dos formatos abaixo:
+              Escolha o formato ideal para a rotina e as necessidades nutricionais do seu cão ou gato:
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 lg:gap-10 w-full max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-6 w-full max-w-7xl mx-auto">
             
-            {/* Format 1: Teleconsulta */}
-            <FadeIn delay={0.05} className="h-full">
+            {/* Format 1: Orientação de Ração */}
+            <FadeIn delay={0.03} className="h-full">
               <div 
                 style={{ willChange: "transform, box-shadow" }}
                 className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
               >
-                <div className="h-28 sm:h-60 w-full overflow-hidden relative bg-stone-100">
+                <div className="h-28 sm:h-52 w-full overflow-hidden relative bg-stone-100">
+                  <img 
+                    src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&w=500&q=70" 
+                    alt="Orientação de ração online para cães e gatos" 
+                    className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-95"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
+                  <span className="absolute top-2.5 sm:top-4 left-2.5 sm:left-4 bg-amber-400 text-stone-950 text-[7px] sm:text-[9px] font-black uppercase tracking-widest px-2.5 sm:px-3 py-1 rounded-full border border-amber-300 shadow-sm">
+                    100% Online • Opção Acessível
+                  </span>
+                </div>
+                <div className="p-3.5 sm:p-6 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-2 mb-3.5 sm:mb-5">
+                    <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Guia Prático Rápido</span>
+                    <h3 className="text-xs sm:text-lg md:text-xl font-bold text-[#111827] font-display">Orientação de Ração</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 font-nunito">
+                      Para quem busca escolher a melhor ração comercial, saber quantas vezes ao dia e quantas gramas oferecer, petiscos saudáveis e dicas de hidratação.
+                    </p>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      document.getElementById('orientacao-racao')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="w-full py-2.5 sm:py-3.5 px-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-stone-950 font-black rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] uppercase tracking-wider relative overflow-hidden shadow-sm hover:shadow transition-all duration-200 ease-out flex items-center justify-center gap-1.5 cursor-pointer border-none"
+                  >
+                    <Sparkles className="shrink-0 w-3 h-3 text-stone-950 fill-stone-950" />
+                    <span>Ver Orientação</span>
+                    <ArrowUpRight className="shrink-0 w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            </FadeIn>
+
+            {/* Format 2: Teleconsulta */}
+            <FadeIn delay={0.06} className="h-full">
+              <div 
+                style={{ willChange: "transform, box-shadow" }}
+                className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
+              >
+                <div className="h-28 sm:h-52 w-full overflow-hidden relative bg-stone-100">
                   <img 
                     src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=500&q=70" 
                     alt="Teleconsulta com a médica veterinária Dra Thais" 
@@ -889,37 +944,37 @@ export default function App() {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-4 py-1 sm:py-2 rounded-full border border-stone-200/30">
+                  <span className="absolute top-2.5 sm:top-4 left-2.5 sm:left-4 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-3 py-1 rounded-full border border-stone-200/30">
                     Nacional • 100% Online
                   </span>
                 </div>
-                <div className="p-3.5 sm:p-8 flex flex-col flex-grow justify-between">
-                  <div className="space-y-1.5 sm:space-y-3 mb-3.5 sm:mb-6">
-                    <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Digital</span>
-                    <h3 className="text-xs sm:text-xl md:text-2xl font-semibold text-[#111827] font-display">Teleconsulta Nutricional</h3>
-                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 sm:pt-2 font-nunito">
-                      Para tutores de todo o Brasil e exterior. Um atendimento online minucioso de cerca de 1 hora, análise de exames recentes, receita de dieta natural balanceada ou suplementação ideal da ração enviada em PDF assinado digitalmente.
+                <div className="p-3.5 sm:p-6 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-2 mb-3.5 sm:mb-5">
+                    <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Digital Completa</span>
+                    <h3 className="text-xs sm:text-lg md:text-xl font-bold text-[#111827] font-display">Teleconsulta Nutricional</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 font-nunito">
+                      Atendimento online de cerca de 1 hora, análise minuciosa de exames, receita de alimentação natural balanceada ou suplementação individualizada.
                     </p>
                   </div>
                   <button 
                     onClick={() => openConsulta('online')}
-                    className="w-full py-2.5 sm:py-4 px-3 sm:px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
+                    className="w-full py-2.5 sm:py-3.5 px-3 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 cursor-pointer border-none"
                   >
-                    <Calendar className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
+                    <Calendar className="shrink-0 w-3 h-3" />
                     <span>Agendar Teleconsulta</span>
-                    <ArrowUpRight className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
+                    <ArrowUpRight className="shrink-0 w-3 h-3" />
                   </button>
                 </div>
               </div>
             </FadeIn>
 
-            {/* Format 2: Presencial SP */}
-            <FadeIn delay={0.1} className="h-full">
+            {/* Format 3: Presencial SP */}
+            <FadeIn delay={0.09} className="h-full">
               <div 
                 style={{ willChange: "transform, box-shadow" }}
                 className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
               >
-                <div className="h-28 sm:h-60 w-full overflow-hidden relative bg-stone-100">
+                <div className="h-28 sm:h-52 w-full overflow-hidden relative bg-stone-100">
                   <img 
                     src="https://images.pexels.com/photos/8473448/pexels-photo-8473448.jpeg?auto=compress&cs=tinysrgb&w=500&q=70" 
                     alt="Atendimento clínico direto no consultório em São Paulo" 
@@ -929,37 +984,37 @@ export default function App() {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-4 py-1 sm:py-2 rounded-full border border-stone-200/30">
-                    São Paulo Capital • Presencial
+                  <span className="absolute top-2.5 sm:top-4 left-2.5 sm:left-4 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-3 py-1 rounded-full border border-stone-200/30">
+                    São Paulo • Presencial
                   </span>
                 </div>
-                <div className="p-3.5 sm:p-8 flex flex-col flex-grow justify-between">
-                  <div className="space-y-1.5 sm:space-y-3 mb-3.5 sm:mb-6">
+                <div className="p-3.5 sm:p-6 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-2 mb-3.5 sm:mb-5">
                     <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Sessão Consultório</span>
-                    <h3 className="text-xs sm:text-xl md:text-2xl font-semibold text-[#111827] font-display">Consulta Presencial</h3>
-                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 sm:pt-2 font-nunito">
-                      Realizada em clínica estruturada na cidade de São Paulo. Inclui exame físico geral, aferição de score de gordura corporal, bioimpedância, e elaboração minuciosa do guia alimentar clínico individualizado para seu amigo de quatro patas.
+                    <h3 className="text-xs sm:text-lg md:text-xl font-bold text-[#111827] font-display">Consulta Presencial</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 font-nunito">
+                      Realizada em clínica estruturada em São Paulo. Inclui exame físico, bioimpedância, score corporal e guia alimentar clínico individualizado.
                     </p>
                   </div>
                   <button 
                     onClick={() => openConsulta('presencial')}
-                    className="w-full py-2.5 sm:py-4 px-3 sm:px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
+                    className="w-full py-2.5 sm:py-3.5 px-3 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 cursor-pointer border-none"
                   >
-                    <MapPin className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
+                    <MapPin className="shrink-0 w-3 h-3" />
                     <span>Agendar Presencial</span>
-                    <ArrowUpRight className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
+                    <ArrowUpRight className="shrink-0 w-3 h-3" />
                   </button>
                 </div>
               </div>
             </FadeIn>
 
-            {/* Format 3: Convênio */}
-            <FadeIn delay={0.15} className="h-full col-span-2 md:col-span-1">
+            {/* Format 4: Convênio */}
+            <FadeIn delay={0.12} className="h-full">
               <div 
                 style={{ willChange: "transform, box-shadow" }}
                 className="group h-full flex flex-col bg-white border border-stone-200/50 rounded-2xl sm:rounded-[2.5rem] overflow-hidden hover:border-[#a338b9]/40 transition-[transform,box-shadow,border-color] duration-300 ease-out relative text-left hover:-translate-y-1 hover:shadow-md transform-gpu"
               >
-                <div className="h-28 sm:h-60 w-full overflow-hidden relative bg-stone-100">
+                <div className="h-28 sm:h-52 w-full overflow-hidden relative bg-stone-100">
                   <img 
                     src="https://img.freepik.com/fotos-premium/pessoa-feminina-segurando-smartphone-nas-maos-enquanto-deitada-no-sofa-em-casa-com-sua-ia-generativa_874904-125864.jpg?semt=ais_hybrid&w=740&q=80" 
                     alt="Atendimento veterinário por plano de saúde e convênio" 
@@ -969,25 +1024,25 @@ export default function App() {
                     decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/40 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute top-2.5 sm:top-5 left-2.5 sm:left-5 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-4 py-1 sm:py-2 rounded-full border border-stone-200/30">
-                    Planos de Saúde • Reembolso
+                  <span className="absolute top-2.5 sm:top-4 left-2.5 sm:left-4 bg-white/95 backdrop-blur-sm text-[#a338b9] text-[7px] sm:text-[9px] font-bold uppercase tracking-widest px-2.5 sm:px-3 py-1 rounded-full border border-stone-200/30">
+                    Planos • Reembolso
                   </span>
                 </div>
-                <div className="p-3.5 sm:p-8 flex flex-col flex-grow justify-between">
-                  <div className="space-y-1.5 sm:space-y-3 mb-3.5 sm:mb-6">
+                <div className="p-3.5 sm:p-6 flex flex-col flex-grow justify-between">
+                  <div className="space-y-1.5 sm:space-y-2 mb-3.5 sm:mb-5">
                     <span className="text-[7px] sm:text-[9px] font-black text-[#a338b9] uppercase tracking-widest font-nunito font-bold">Uso de Benefício</span>
-                    <h3 className="text-xs sm:text-xl md:text-2xl font-semibold text-[#111827] font-display">Atendimento pelo Convênio</h3>
-                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 sm:pt-2 font-nunito">
-                      Seu pet tem plano de saúde? Diversas operadoras trabalham com sistema de livre escolha e reembolso para consultas com especialistas. Fale comigo para saber mais e agendar pelo convênio!
+                    <h3 className="text-xs sm:text-lg md:text-xl font-bold text-[#111827] font-display">Atendimento Convênio</h3>
+                    <p className="text-[10px] sm:text-xs text-stone-700 font-semibold leading-relaxed pt-1 font-nunito">
+                      Seu pet tem plano de saúde? Diversas operadoras possuem sistema de reembolso para consultas especializadas. Fale comigo!
                     </p>
                   </div>
                   <button 
                     onClick={() => openConsulta('insurance')}
-                    className="w-full py-2.5 sm:py-4 px-3 sm:px-6 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[11px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer border-none transform active:scale-[0.98] hover:scale-[1.01]"
+                    className="w-full py-2.5 sm:py-3.5 px-3 bg-gradient-to-r from-[#a338b9] to-[#bf48da] hover:from-[#812099] hover:to-[#a338b9] text-white font-extrabold rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] uppercase tracking-wider relative overflow-hidden shadow-[0_8px_20px_rgba(163,56,185,0.15)] hover:shadow-[0_12px_28px_rgba(163,56,185,0.3)] transition-all duration-200 ease-out flex items-center justify-center gap-1.5 cursor-pointer border-none"
                   >
-                    <MessageSquare className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
-                    <span>Agendar pelo Convênio</span>
-                    <ArrowUpRight className="shrink-0 w-3 h-3 sm:w-[13px] sm:h-[13px]" />
+                    <MessageSquare className="shrink-0 w-3 h-3" />
+                    <span>Agendar Convênio</span>
+                    <ArrowUpRight className="shrink-0 w-3 h-3" />
                   </button>
                 </div>
               </div>
@@ -997,7 +1052,7 @@ export default function App() {
         </div>
       </section>
       
-      {/* SECTION 6: MEU PRIMEIRO PET (PRIMARY SOLUTION) */}
+      {/* SECTION 6: CONSULTA ONLINE & ORIENTAÇÃO DE RAÇÃO */}
       <MeuPrimeiroPet setIsModalOpen={setIsModalOpen} />
       
       {/* SECTION 7: DEPOIMENTOS EMOCIONAIS (Estilo Airbnb/Headspace - fotos grandes e relatos humanos reais) */}
@@ -1096,7 +1151,7 @@ export default function App() {
             <span className="text-[11px] font-bold text-[#a338b9] tracking-[0.2em] uppercase font-sans">Dúvidas Frequentes</span>
             <h2 className="text-3xl md:text-5xl font-extrabold text-[#111827] font-display">Perguntas Respondidas</h2>
             <p className="text-stone-700 font-semibold text-sm md:text-base leading-relaxed font-sans max-w-lg mx-auto">
-              Veja as respostas essenciais sobre a consulta oficial da Dra. Thais e a metodologia simplificada do Meu Primeiro Pet.
+              Veja as respostas essenciais sobre a consulta nutricional online da Dra. Thais e a orientação para escolha e porção exata de ração.
             </p>
           </div>
 
@@ -1220,7 +1275,7 @@ export default function App() {
               <ul className="space-y-2 font-medium text-stone-600">
                 <li>Teleconsultas Online</li>
                 <li>Consultório Presencial</li>
-                <li>Adesão Primeiro Pet</li>
+                <li>Orientação de Ração</li>
               </ul>
             </div>
 
@@ -1253,8 +1308,8 @@ export default function App() {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => navigateTo('/consulta-primeiro-pet/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
-                    Consulta Primeiro Pet
+                  <button onClick={() => navigateTo('/qual-racao-dar-para-filhote/')} className="hover:text-[#a338b9] text-left cursor-pointer border-none bg-transparent p-0">
+                    Ração para Filhote
                   </button>
                 </li>
               </ul>
@@ -1263,7 +1318,7 @@ export default function App() {
             <div className="md:col-span-3 space-y-4">
               <h4 className="text-[10px] font-bold tracking-widest uppercase text-[#111827]">Legal & Ética</h4>
               <p className="leading-relaxed text-stone-600">
-                As consultorias do Meu Primeiro Pet e artigos do blog não representam diagnóstico médico final e não substituem o acompanhamento completo em consultório físico veterinário em casos de quadros patológicos do animal.
+                As consultas e orientações nutricionais e os artigos do blog não representam diagnóstico médico final e não substituem o acompanhamento completo em consultório físico veterinário em casos de quadros patológicos do animal.
               </p>
             </div>
 
@@ -1283,7 +1338,7 @@ export default function App() {
       {/* Dynamic WhatsApp attention-grabber float */}
       <WhatsAppFloat />
 
-      {/* Premium Meu Primeiro Pet Notification Pop-up */}
+      {/* Premium Notification Pop-up - Orientação de Ração & Consulta Online */}
       <MeuPrimeiroPetNotification />
 
     </div>

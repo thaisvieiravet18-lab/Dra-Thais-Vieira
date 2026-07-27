@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nutricaoveterinariathais.com.br/sitemap.xml
