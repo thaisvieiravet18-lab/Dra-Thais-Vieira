@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import App from '../App';
 import { BLOG_ARTICLES, SERVICE_LANDINGS } from '../data/blogArticles';
 
-const DOMAIN = 'https://drathaisvieira.com.br';
+const DOMAIN = 'https://nutricaoveterinariathais.com.br';
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=1200&q=80';
 
 export interface SeoData {
@@ -17,7 +17,8 @@ export interface SeoData {
 }
 
 export function getSeoDataForPath(pathname: string): SeoData {
-  const cleanPath = pathname.replace(/\/$/, '') || '/';
+  const pathWithoutQuery = pathname.split('?')[0].split('#')[0];
+  const cleanPath = pathWithoutQuery.replace(/\/+$/, '') || '/';
 
   // 1. Home Page
   if (cleanPath === '/') {

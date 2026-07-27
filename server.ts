@@ -9,7 +9,7 @@ import { renderPageHtml } from "./src/server/seoRenderer";
 import { BLOG_ARTICLES, SERVICE_LANDINGS } from "./src/data/blogArticles";
 
 const PORT = 3000;
-const DOMAIN = 'https://drathaisvieira.com.br';
+const DOMAIN = 'https://nutricaoveterinariathais.com.br';
 
 async function startServer() {
   const app = express();
