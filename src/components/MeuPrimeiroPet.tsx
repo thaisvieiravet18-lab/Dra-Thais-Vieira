@@ -7,13 +7,7 @@ import {
   Dog,
   Heart,
   Lock,
-  ShieldCheck,
-  Utensils,
-  Clock,
-  Cookie,
-  Droplet,
-  Check,
-  PiggyBank
+  ShieldCheck
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { FadeIn } from './LayoutComponents';
@@ -23,37 +17,6 @@ interface MeuPrimeiroPetProps {
 }
 
 export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
-  const pillarItems = [
-    {
-      title: "Escolha da Melhor Ração",
-      badge: "NUTRIÇÃO ADEQUADA",
-      desc: "Orientação para encontrar a melhor ração comercial (Super Premium, Castrado, Filhote ou Sênior) que se adapta ao perfil do seu pet e cabe no seu orçamento.",
-      icon: <Utensils size={24} className="text-amber-400" />,
-      accent: "border-amber-400/30 bg-amber-400/10 text-amber-300"
-    },
-    {
-      title: "Quantidade & Quantas Vezes Comer",
-      badge: "DOSAGEM & FREQUÊNCIA",
-      desc: "Cálculo exato da quantidade diária em gramas e divisão correta de quantas refeições fazer por dia para evitar fome, refluxo e ganho de peso.",
-      icon: <Clock size={24} className="text-orange-400" />,
-      accent: "border-orange-400/30 bg-orange-400/10 text-orange-300"
-    },
-    {
-      title: "Petiscos Saudáveis e Seguros",
-      badge: "SNACKS SEM CULPA",
-      desc: "Guia completo de alimentos e petiscos naturais permitidos (frutas, legumes e snacks seguros) com o limite diário recomendado para não desequilibrar a dieta.",
-      icon: <Cookie size={24} className="text-yellow-400" />,
-      accent: "border-yellow-400/30 bg-yellow-400/10 text-yellow-300"
-    },
-    {
-      title: "Metas e Dicas de Hidratação",
-      badge: "SAÚDE RENAL",
-      desc: "Cálculo da necessidade diária de água e estratégias práticas para incentivar seu cão ou gato a beber mais líquido todos os dias.",
-      icon: <Droplet size={24} className="text-blue-400" />,
-      accent: "border-blue-400/30 bg-blue-400/10 text-blue-300"
-    }
-  ];
-
   return (
     <section 
       className="pt-24 pb-16 md:pt-32 md:pb-24 px-4 md:px-8 relative z-10 -mt-16 rounded-[3.5rem] md:rounded-[4.5rem] shadow-[0_-15px_45px_rgba(0,0,0,0.15),0_25px_60px_rgba(0,0,0,0.2)] overflow-hidden text-white" 
@@ -99,28 +62,20 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
             </h2>
             
             <p className="text-amber-400 text-2xl md:text-4.5xl font-black tracking-tight font-display uppercase mt-3 drop-shadow-sm">
-              A MELHOR RAÇÃO, QUANTIDADE CERTA, FREQUÊNCIA, PETISCOS SAUDÁVEIS E HIDRATAÇÃO
+              A MELHOR RAÇÃO, QUANTIDADE CERTA E PETISCOS SAUDÁVEIS
             </p>
-
-            {/* Affordable Highlight Banner */}
-            <div className="mt-4 inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 px-5 py-2.5 rounded-full">
-              <PiggyBank size={18} className="text-emerald-400 shrink-0" />
-              <span className="text-emerald-300 text-xs md:text-sm font-extrabold uppercase tracking-wider font-sans">
-                Opção mais acessível e prática para cuidar da nutrição do seu pet
-              </span>
-            </div>
             
             <p className="text-stone-200 text-lg md:text-2xl font-bold max-w-3xl mx-auto mt-6 leading-snug font-sans">
-              Acabou de adotar um pet ou é pai/mãe de primeira viagem? Não sabe qual é a melhor ração, os petiscos mais seguros para seu cão ou gato, e não sabe quanto oferecer por dia? <span className="text-amber-300 font-extrabold">Este plano foi feito especialmente para você!</span>
+              Orientação nutricional veterinária para escolher a melhor ração para o perfil do seu pet, calcular a quantidade exata em gramas por dia e indicar petiscos seguros.
             </p>
 
             {/* Perguntas super destacadas */}
             <div className="mt-8 max-w-3xl mx-auto grid grid-cols-2 gap-2.5 sm:gap-4 text-left">
               {[
-                { text: "Dúvidas sobre qual a melhor marca de ração para o perfil do seu pet?", icon: <Dog className="text-amber-400" size={20} /> },
-                { text: "Sem saber quantas vezes ao dia e quantas gramas servir?", icon: <Clock className="text-orange-400" size={20} /> },
-                { text: "Quer saber quais petiscos e frutas são seguros de oferecer?", icon: <Cookie className="text-yellow-400" size={20} /> },
-                { text: "Preocupado se seu cão ou gato está bebendo água suficiente?", icon: <Droplet className="text-blue-400" size={20} /> }
+                { text: "Adotou um pet recentemente e não sabe qual ração escolher?", icon: <Dog className="text-amber-400" size={20} /> },
+                { text: "É pai ou mãe de pet de primeira viagem e quer começar do jeito certo?", icon: <Heart className="text-red-400" size={20} /> },
+                { text: "Já tem um pet em casa, mas ainda mede a ração no copinho ou no olho?", icon: <Scale className="text-orange-400" size={20} /> },
+                { text: "Você sabe se ele está comendo a quantidade certa todos os dias?", icon: <Activity className="text-emerald-400" size={20} /> }
               ].map((q, qIdx) => (
                 <div 
                   key={qIdx} 
@@ -139,55 +94,10 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
             <div className="mt-6 inline-block bg-red-500/10 border border-red-500/20 px-5 py-3 rounded-2xl">
               <p className="text-red-300 text-xs md:text-sm font-black uppercase tracking-wider font-sans flex items-center justify-center gap-2">
                 <AlertTriangle size={16} className="text-red-400 shrink-0" />
-                Alimentação sem orientação pode causar sobrepeso, desnutrição e problemas renais.
+                Quando a alimentação é feita no achismo, o erro pode acontecer todos os dias.
               </p>
             </div>
           </FadeIn>
-        </div>
-
-        {/* 4 PILLARS CARDS SECTION */}
-        <div className="max-w-5xl mx-auto mb-16">
-          <div className="text-center mb-10">
-            <span className="text-[10px] md:text-xs font-black tracking-widest text-stone-900 bg-amber-400 py-1.5 px-4 rounded-full uppercase inline-flex items-center gap-1.5 shadow-md">
-              <Sparkles size={12} className="fill-stone-900 animate-pulse" />
-              TUDO O QUE VOCÊ RECEBE NO PLANO
-            </span>
-            <h3 className="text-2xl md:text-4xl font-black text-white font-display uppercase tracking-tight mt-3">
-              O QUE ESTÁ INCLUSO NA ORIENTAÇÃO
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {pillarItems.map((item, idx) => (
-              <FadeIn key={idx} delay={idx * 0.1}>
-                <div className="bg-white/[0.04] backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-[2rem] hover:border-amber-400/50 hover:bg-white/[0.07] transition-all duration-300 flex flex-col justify-between h-full space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className={`p-3 rounded-2xl border ${item.accent}`}>
-                        {item.icon}
-                      </div>
-                      <span className="text-[10px] font-black tracking-widest text-amber-300 bg-white/10 border border-white/10 px-3 py-1 rounded-full uppercase font-sans">
-                        {item.badge}
-                      </span>
-                    </div>
-
-                    <h4 className="text-xl font-black text-white font-display uppercase tracking-tight">
-                      {item.title}
-                    </h4>
-
-                    <p className="text-stone-300 text-sm font-medium leading-relaxed font-sans">
-                      {item.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-2 flex items-center gap-2 text-xs font-bold text-emerald-400">
-                    <Check size={14} className="shrink-0" />
-                    <span>Incluso na Orientação de Ração</span>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
         </div>
 
         {/* PRICE & CALL TO ACTION PANEL */}
@@ -197,13 +107,13 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
           
           <div className="space-y-3">
             <span className="text-xs text-emerald-400 font-sans font-black tracking-widest uppercase flex items-center justify-center gap-1.5">
-              <Sparkles size={12} className="animate-pulse" /> CONSULTA E ORIENTAÇÃO PERSONALIZADA
+              <Sparkles size={12} className="animate-pulse" /> CONSULTA NUTRICIONAL PERSONALIZADA
             </span>
             <h3 className="text-2xl md:text-4xl font-black text-white font-display uppercase tracking-tight">
-              ALIMENTE SEU PET COM SEGURANÇA E ECONOMIA
+              ALIMENTE SEU PET DO JEITO CERTO HOJE
             </h3>
             <p className="text-stone-300 text-xs md:text-sm font-semibold max-w-xl mx-auto">
-              Saiba qual a melhor ração, quantidade exata, horários das refeições, petiscos saudáveis e dicas de hidratação sem complicações.
+              Preencha os dados do seu pet e agende sua consulta para receber orientações nutricionais personalizadas com a Dra. Thais.
             </p>
           </div>
 
@@ -211,7 +121,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
           <div className="space-y-2 py-2">
             <div className="pt-2">
               <span className="inline-block text-xs md:text-sm font-black tracking-wider text-amber-300 bg-white/10 py-2.5 px-6 rounded-full border border-amber-400/30">
-                OPÇÃO MAIS ACESSÍVEL • ORIENTAÇÃO ONLINE INDIVIDUALIZADA VIA WHATSAPP
+                ORIENTAÇÃO DE RAÇÃO ONLINE • ATENDIMENTO INDIVIDUALIZADO VIA WHATSAPP
               </span>
             </div>
           </div>
@@ -224,7 +134,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
               </div>
               <div>
                 <p className="text-white text-xs font-bold font-sans">Dados protegidos</p>
-                <p className="text-stone-400 text-[10px] leading-relaxed font-sans">Suas respostas são usadas apenas para a elaboração do plano do seu pet.</p>
+                <p className="text-stone-400 text-[10px] leading-relaxed font-sans">Suas respostas são usadas apenas para a elaboração do plano alimentar do seu pet.</p>
               </div>
             </div>
 
@@ -234,7 +144,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
               </div>
               <div>
                 <p className="text-white text-xs font-bold font-sans">Orientação profissional</p>
-                <p className="text-stone-400 text-[10px] leading-relaxed font-sans">Analisado por médica veterinária especialista em nutrição animal.</p>
+                <p className="text-stone-400 text-[10px] leading-relaxed font-sans">Plano analisado por médica veterinária especialista em nutrição animal.</p>
               </div>
             </div>
 
@@ -246,7 +156,7 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
               </div>
               <div>
                 <p className="text-white text-xs font-bold font-sans">Envio prático</p>
-                <p className="text-stone-400 text-[10px] leading-relaxed font-sans">Você recebe o guia completo para a rotina diária do seu pet no WhatsApp/E-mail.</p>
+                <p className="text-stone-400 text-[10px] leading-relaxed font-sans">Após a análise individual, você recebe o guia completo para a rotina do seu pet.</p>
               </div>
             </div>
           </div>
@@ -260,13 +170,13 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
               className="w-full sm:w-auto flex-1 py-5 px-8 bg-amber-400 hover:bg-amber-300 text-stone-950 font-black rounded-2xl text-xs sm:text-sm uppercase tracking-widest shadow-[0_15px_30px_rgba(251,191,36,0.35)] transition-all flex items-center justify-center gap-2 cursor-pointer border-none"
             >
               <Sparkles size={16} className="fill-stone-950 animate-pulse shrink-0" />
-              <span>AGENDAR ORIENTAÇÃO DE RAÇÃO</span>
+              <span>AGENDAR CONSULTA DO MEU PET</span>
             </motion.button>
           </div>
 
           {/* Final Impact Phrase inside the main price CTA panel */}
           <p className="text-amber-300 text-xs md:text-sm font-extrabold tracking-wide uppercase pt-4">
-            “Chega de copinho. Chega de olhômetro. A orientação certa com investimento que cabe no bolso.”
+            “Chega de copinho. Chega de olhômetro. Chega de dúvida na hora de alimentar.”
           </p>
         </div>
 
@@ -274,4 +184,3 @@ export function MeuPrimeiroPet({ setIsModalOpen }: MeuPrimeiroPetProps) {
     </section>
   );
 }
-
